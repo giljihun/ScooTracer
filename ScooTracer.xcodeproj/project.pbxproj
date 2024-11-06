@@ -44,6 +44,7 @@
 			children = (
 				F2C140932CDB7A3900760C9A /* CONVENTION.md */,
 				F2C140942CDB857E00760C9A /* STRUCTURE.md */,
+				F2C1408D2CDB722D00760C9A /* Info.plist */,
 				F2C1407E2CDB722900760C9A /* ScooTracer */,
 				F2C1407D2CDB722900760C9A /* Products */,
 			);
@@ -62,13 +63,68 @@
 			children = (
 				F2C1407F2CDB722900760C9A /* AppDelegate.swift */,
 				F2C140812CDB722900760C9A /* SceneDelegate.swift */,
-				F2C140832CDB722900760C9A /* ViewController.swift */,
-				F2C140852CDB722900760C9A /* Main.storyboard */,
-				F2C1408A2CDB722D00760C9A /* LaunchScreen.storyboard */,
-				F2C140882CDB722D00760C9A /* Assets.xcassets */,
-				F2C1408D2CDB722D00760C9A /* Info.plist */,
+				F2C140952CDB884F00760C9A /* Model */,
+				F2C140962CDB885600760C9A /* View */,
+				F2C140972CDB885B00760C9A /* ViewModel */,
+				F2C140982CDB886000760C9A /* Service */,
+				F2C140992CDB886400760C9A /* Resources */,
+				F2C1409A2CDB886A00760C9A /* Extensions */,
+				F2C1409B2CDB886E00760C9A /* Utils */,
 			);
 			path = ScooTracer;
+			sourceTree = "<group>";
+		};
+		F2C140952CDB884F00760C9A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F2C140962CDB885600760C9A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F2C140832CDB722900760C9A /* ViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F2C140972CDB885B00760C9A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		F2C140982CDB886000760C9A /* Service */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		F2C140992CDB886400760C9A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F2C140882CDB722D00760C9A /* Assets.xcassets */,
+				F2C140852CDB722900760C9A /* Main.storyboard */,
+				F2C1408A2CDB722D00760C9A /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F2C1409A2CDB886A00760C9A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F2C1409B2CDB886E00760C9A /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
