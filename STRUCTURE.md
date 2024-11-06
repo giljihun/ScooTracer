@@ -18,20 +18,42 @@
 
 ---
 
-## 폴더 구조
+## (가제)폴더 구조
 
 ```plaintext
-- Model
-- View
-   - ViewController
-   - Custom Views
-- ViewModel
-- Service
-- Resources
-   - Assets
-   - Localization
-- Extensions
-- Utils
+📁 ScooTracer
+   ├── AppDelegate.swift
+   ├── SceneDelegate.swift
+   ├── Info.plist
+
+   📁 Model
+      ├── User.swift                    # 사용자 정보 모델 (닉네임, 면허 인증 상태, 등록된 얼굴 등)            
+      └── FaceData.swift                # 얼굴 이미지 데이터 및 인증 상태를 관리하는 모델
+
+   📁 View
+      ├── AuthViewController.swift       # 회원가입 및 면허 인증 관련 화면
+      ├── LiveTrackingViewController.swift # 실시간 주행 중 얼굴 인식을 관리하는 화면
+      📁 Custom Views
+         ├── FaceCaptureView.swift       # 얼굴 촬영 UI 및 카메라 관련 뷰
+         └── LicenseCaptureView.swift    # 면허증 촬영 UI 및 카메라 관련 뷰
+
+   📁 ViewModel
+      ├── AuthViewModel.swift            # 회원가입 및 면허 인증 처리 로직
+      └── FaceRecognitionViewModel.swift # 얼굴 인식 및 실시간 비교 로직
+
+   📁 Service
+      ├── AuthService.swift              # UserDefaults에 사용자 데이터 저장 및 조회
+      ├── FaceRecognitionService.swift   # 얼굴 비교 및 오류 처리 로직
+      └── ImageProcessingService.swift    # 이미지 촬영, 전처리, 모델 전송 등을 관리
+
+   📁 Extensions
+      ├── UIView+Extensions.swift        # UIView 관련 확장 메서드
+      └── UIImage+Extensions.swift       # 이미지 처리 관련 확장 메서드
+
+   📁 Utils
+      ├── TimerHelper.swift              # 주기적인 얼굴 촬영 및 모델 전송을 위한 타이머 헬퍼
+      └── ErrorHandler.swift             # 오류 및 예외 처리를 위한 헬퍼
+
 ```
 # 폴더별 역할 
 
