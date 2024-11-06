@@ -25,6 +25,7 @@
 		F2C1408B2CDB722D00760C9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F2C1408D2CDB722D00760C9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2C140932CDB7A3900760C9A /* CONVENTION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONVENTION.md; sourceTree = "<group>"; };
+		F2C140942CDB857E00760C9A /* STRUCTURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STRUCTURE.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +42,8 @@
 		F2C140732CDB722900760C9A = {
 			isa = PBXGroup;
 			children = (
+				F2C140932CDB7A3900760C9A /* CONVENTION.md */,
+				F2C140942CDB857E00760C9A /* STRUCTURE.md */,
 				F2C1407E2CDB722900760C9A /* ScooTracer */,
 				F2C1407D2CDB722900760C9A /* Products */,
 			);
@@ -61,10 +64,9 @@
 				F2C140812CDB722900760C9A /* SceneDelegate.swift */,
 				F2C140832CDB722900760C9A /* ViewController.swift */,
 				F2C140852CDB722900760C9A /* Main.storyboard */,
-				F2C140882CDB722D00760C9A /* Assets.xcassets */,
 				F2C1408A2CDB722D00760C9A /* LaunchScreen.storyboard */,
+				F2C140882CDB722D00760C9A /* Assets.xcassets */,
 				F2C1408D2CDB722D00760C9A /* Info.plist */,
-				F2C140932CDB7A3900760C9A /* CONVENTION.md */,
 			);
 			path = ScooTracer;
 			sourceTree = "<group>";
