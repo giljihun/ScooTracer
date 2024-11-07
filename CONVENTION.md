@@ -1,4 +1,4 @@
-#  커밋 컨벤션
+# Commite Conventions
 
 [Feat] – 새로운 기능 추가 
 (예: [Feat] #1: Add face recognition model)
