@@ -9,23 +9,21 @@
 /* Begin PBXBuildFile section */
 		F2C140802CDB722900760C9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C1407F2CDB722900760C9A /* AppDelegate.swift */; };
 		F2C140822CDB722900760C9A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C140812CDB722900760C9A /* SceneDelegate.swift */; };
-		F2C140842CDB722900760C9A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C140832CDB722900760C9A /* ViewController.swift */; };
-		F2C140872CDB722900760C9A /* Base in Resources */ = {isa = PBXBuildFile; fileRef = F2C140862CDB722900760C9A /* Base */; };
+		F2C140842CDB722900760C9A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C140832CDB722900760C9A /* MainViewController.swift */; };
 		F2C140892CDB722D00760C9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2C140882CDB722D00760C9A /* Assets.xcassets */; };
-		F2C1408C2CDB722D00760C9A /* Base in Resources */ = {isa = PBXBuildFile; fileRef = F2C1408B2CDB722D00760C9A /* Base */; };
+		F2C1409D2CE46FDB00760C9A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C1409C2CE46FDA00760C9A /* SplashViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F2C1407C2CDB722900760C9A /* ScooTracer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScooTracer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C1407F2CDB722900760C9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F2C140812CDB722900760C9A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		F2C140832CDB722900760C9A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		F2C140862CDB722900760C9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F2C140832CDB722900760C9A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		F2C140882CDB722D00760C9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F2C1408B2CDB722D00760C9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F2C1408D2CDB722D00760C9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2C140932CDB7A3900760C9A /* CONVENTION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONVENTION.md; sourceTree = "<group>"; };
 		F2C140942CDB857E00760C9A /* STRUCTURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STRUCTURE.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
+		F2C1409C2CE46FDA00760C9A /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +82,8 @@
 		F2C140962CDB885600760C9A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F2C140832CDB722900760C9A /* ViewController.swift */,
+				F2C140832CDB722900760C9A /* MainViewController.swift */,
+				F2C1409C2CE46FDA00760C9A /* SplashViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -107,8 +106,6 @@
 			isa = PBXGroup;
 			children = (
 				F2C140882CDB722D00760C9A /* Assets.xcassets */,
-				F2C140852CDB722900760C9A /* Main.storyboard */,
-				F2C1408A2CDB722D00760C9A /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -186,8 +183,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2C140892CDB722D00760C9A /* Assets.xcassets in Resources */,
-				F2C1408C2CDB722D00760C9A /* Base in Resources */,
-				F2C140872CDB722900760C9A /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,32 +193,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2C140842CDB722900760C9A /* ViewController.swift in Sources */,
+				F2C140842CDB722900760C9A /* MainViewController.swift in Sources */,
 				F2C140802CDB722900760C9A /* AppDelegate.swift in Sources */,
 				F2C140822CDB722900760C9A /* SceneDelegate.swift in Sources */,
+				F2C1409D2CE46FDB00760C9A /* SplashViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		F2C140852CDB722900760C9A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F2C140862CDB722900760C9A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		F2C1408A2CDB722D00760C9A /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F2C1408B2CDB722D00760C9A /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		F2C1408E2CDB722D00760C9A /* Debug */ = {
@@ -354,10 +331,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5M5VM39FM9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ScooTracer/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -386,10 +363,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5M5VM39FM9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ScooTracer/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
