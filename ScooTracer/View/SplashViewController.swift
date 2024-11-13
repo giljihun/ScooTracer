@@ -1,10 +1,3 @@
-//
-//  SplashViewController.swift
-//  ScooTracer
-//
-//  Created by mobicom on 11/13/24.
-//
-
 import UIKit
 
 class SplashViewController: UIViewController {
@@ -15,6 +8,8 @@ class SplashViewController: UIViewController {
 
     private var logoCenterYConstraint: NSLayoutConstraint!
     private var logoCenterXConstraint: NSLayoutConstraint!
+    private var titleTopConstraint: NSLayoutConstraint!
+    private var startTopConstraint: NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,11 +44,14 @@ class SplashViewController: UIViewController {
         titleLabel.font = UIFont.systemFont(ofSize: 40, weight: .bold)
         titleLabel.textAlignment = .center
         titleLabel.alpha = 0
+
         view.addSubview(titleLabel)
+
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleTopConstraint = titleLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 10)
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: logoImageView.leadingAnchor),
-            titleLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 10)
+            titleTopConstraint
         ])
 
         // 시작하기 레이블 설정
@@ -64,9 +62,10 @@ class SplashViewController: UIViewController {
         startLabel.alpha = 0
         view.addSubview(startLabel)
         startLabel.translatesAutoresizingMaskIntoConstraints = false
+        startTopConstraint = startLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8)
         NSLayoutConstraint.activate([
             startLabel.leadingAnchor.constraint(equalTo: logoImageView.leadingAnchor),
-            startLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8)
+            startTopConstraint
         ])
     }
 
@@ -83,17 +82,45 @@ class SplashViewController: UIViewController {
     }
 
     private func moveLogoUp() {
-        /* 로고와 레이블이 위로 이동하고, 시작하기 레이블이 나타나는 애니메이션
-        로고를 더 위로 이동하도록 centerY 제약 조정 */
+        // 로고와 레이블을 위로 이동하도록 제약 조정
         logoCenterYConstraint.constant = -150
 
         UIView.animate(withDuration: 1.0, delay: 0.5, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
-            // 제약 조건 변경 사항을 애니메이션으로 적용
             self.view.layoutIfNeeded()
-            // 크기와 위치를 원래대로 복귀
             self.logoImageView.transform = .identity
             self.titleLabel.alpha = 1.0
             self.startLabel.alpha = 1.0
+        }, completion: { _ in
+            self.moveLabelsToTopLeft()
         })
+    }
+
+    private func moveLabelsToTopLeft() {
+        // 기존 titleLabel과 startLabel의 제약 해제
+        titleTopConstraint.isActive = false
+        startTopConstraint.isActive = false
+
+        // titleLabel과 startLabel을 왼쪽 상단에 맞춰 새로운 제약 설정
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            startLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            startLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor)
+        ])
+
+        // 애니메이션을 통해 레이블을 왼쪽 상단으로 이동, 로고는 페이드 아웃
+        UIView.animate(withDuration: 0.7, animations: {
+            self.logoImageView.alpha = 0
+            self.view.layoutIfNeeded()
+        }, completion: { _ in
+            self.goToMainScreen()
+        })
+    }
+
+    private func goToMainScreen() {
+        let startingViewController = StartingViewController()
+        startingViewController.modalTransitionStyle = .crossDissolve
+        startingViewController.modalPresentationStyle = .fullScreen
+        self.present(startingViewController, animated: true)
     }
 }
