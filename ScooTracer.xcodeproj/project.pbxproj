@@ -13,6 +13,7 @@
 		F2C140892CDB722D00760C9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2C140882CDB722D00760C9A /* Assets.xcassets */; };
 		F2C1409D2CE46FDB00760C9A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C1409C2CE46FDA00760C9A /* SplashViewController.swift */; };
 		F2C1409F2CEB20A700760C9A /* CaptureLicenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C1409E2CEB20A600760C9A /* CaptureLicenseViewController.swift */; };
+		F2C140A12CEB2E3E00760C9A /* CaptureLicenseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C140A02CEB2E3E00760C9A /* CaptureLicenseViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		F2C140942CDB857E00760C9A /* STRUCTURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STRUCTURE.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
 		F2C1409C2CE46FDA00760C9A /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		F2C1409E2CEB20A600760C9A /* CaptureLicenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureLicenseViewController.swift; sourceTree = "<group>"; };
+		F2C140A02CEB2E3E00760C9A /* CaptureLicenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureLicenseViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 		F2C140972CDB885B00760C9A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				F2C140A02CEB2E3E00760C9A /* CaptureLicenseViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -197,6 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2C140842CDB722900760C9A /* StartingViewController.swift in Sources */,
+				F2C140A12CEB2E3E00760C9A /* CaptureLicenseViewModel.swift in Sources */,
 				F2C140802CDB722900760C9A /* AppDelegate.swift in Sources */,
 				F2C140822CDB722900760C9A /* SceneDelegate.swift in Sources */,
 				F2C1409D2CE46FDB00760C9A /* SplashViewController.swift in Sources */,
