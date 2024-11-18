@@ -113,14 +113,14 @@ class SplashViewController: UIViewController {
             self.logoImageView.alpha = 0
             self.view.layoutIfNeeded()
         }, completion: { _ in
-            self.goToMainScreen()
+            self.goToStartingView()
         })
     }
 
-    private func goToMainScreen() {
+    private func goToStartingView() {
         let startingViewController = StartingViewController()
-        startingViewController.modalTransitionStyle = .crossDissolve
-        startingViewController.modalPresentationStyle = .fullScreen
-        self.present(startingViewController, animated: true)
+        let navigationController = UINavigationController(rootViewController: startingViewController)
+        self.view.window?.rootViewController = navigationController
     }
+
 }

@@ -13,6 +13,7 @@ class StartingViewController: UIViewController, UIScrollViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.isNavigationBarHidden = true
         setupViews()
     }
 
@@ -28,7 +29,6 @@ class StartingViewController: UIViewController, UIScrollViewDelegate {
         titleLabel.text = "ScooTracer"
         titleLabel.font = UIFont.systemFont(ofSize: 40, weight: .bold)
         titleLabel.textColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
-        titleLabel.alpha = 0
         view.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -40,7 +40,6 @@ class StartingViewController: UIViewController, UIScrollViewDelegate {
         startLabel.text = "시작하기"
         startLabel.font = UIFont.systemFont(ofSize: 40, weight: .medium)
         startLabel.textColor = .darkGray
-        startLabel.alpha = 0
         view.addSubview(startLabel)
         startLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -131,7 +130,7 @@ class StartingViewController: UIViewController, UIScrollViewDelegate {
         continueBtn.backgroundColor = .systemBlue
         continueBtn.layer.cornerRadius = 10
         continueBtn.alpha = 0
-        continueBtn.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
+        continueBtn.addTarget(self, action: #selector(goToCaptureLicenseView), for: .touchUpInside)
         continueBtn.addTarget(self, action: #selector(buttonTouchDown), for: .touchDown) // 추가된 이벤트 연결
         continueBtn.addTarget(self, action: #selector(buttonTouchUp), for: .touchUpInside)
         continueBtn.addTarget(self, action: #selector(buttonTouchUp), for: .touchUpOutside)
@@ -214,10 +213,13 @@ class StartingViewController: UIViewController, UIScrollViewDelegate {
         pageControl.currentPage = Int(pageIndex)
     }
 
-    @objc private func continueButtonTapped() {
-        // 다음 화면으로 이동하는 코드
-        print("Continue button tapped")
+    @objc private func goToCaptureLicenseView() {
+        let captureLicenseVC = CaptureLicenseViewController()
+        captureLicenseVC.modalTransitionStyle = .crossDissolve
+        captureLicenseVC.modalPresentationStyle = .fullScreen
+        self.present(captureLicenseVC, animated: true, completion: nil)
     }
+
 
     // 버튼 눌렸을 때 축소
     @objc private func buttonTouchDown(_ sender: UIButton) {
