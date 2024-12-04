@@ -72,7 +72,7 @@ class CaptureLicenseViewModel: NSObject {
     /// 사진 촬영
     func capturePhoto() {
         let settings = AVCapturePhotoSettings()
-        settings.flashMode = .auto
+        settings.flashMode = .off
         photoOutput.capturePhoto(with: settings, delegate: self)
     }
 }

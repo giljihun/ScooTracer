@@ -48,7 +48,23 @@ class CaptureLicenseViewController: UIViewController {
     private var blurView: UIVisualEffectView?
 
     /// 촬영 버튼
-    private let captureButton = UIButton()
+    private let whiteCircle: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 35 // 동그라미
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    private let captureButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.backgroundColor = .clear // 내부는 투명
+        button.layer.borderColor = UIColor.white.cgColor // 검은 테두리
+        button.layer.borderWidth = 2.5
+        button.layer.cornerRadius = 40
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 
     // MARK: - 생명 주기 메서드
 
@@ -114,27 +130,56 @@ class CaptureLicenseViewController: UIViewController {
 
     /// 촬영 버튼 설정
     private func setupCaptureButton() {
-        captureButton.backgroundColor = .white
-        captureButton.layer.cornerRadius = 35
-        captureButton.layer.borderWidth = 4
-        captureButton.layer.borderColor = UIColor.lightGray.cgColor
-        captureButton.clipsToBounds = true
-
-        captureButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(captureButton)
-
+        // 하얀 동그라미 추가
+        view.addSubview(whiteCircle)
         NSLayoutConstraint.activate([
-            captureButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            captureButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
-            captureButton.widthAnchor.constraint(equalToConstant: 70),
-            captureButton.heightAnchor.constraint(equalToConstant: 70)
+            whiteCircle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            whiteCircle.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+            whiteCircle.widthAnchor.constraint(equalToConstant: 70),
+            whiteCircle.heightAnchor.constraint(equalToConstant: 70)
         ])
 
+        // 검은 테두리 버튼 추가
+        view.addSubview(captureButton)
+        NSLayoutConstraint.activate([
+            captureButton.centerXAnchor.constraint(equalTo: whiteCircle.centerXAnchor),
+            captureButton.centerYAnchor.constraint(equalTo: whiteCircle.centerYAnchor),
+            captureButton.widthAnchor.constraint(equalToConstant: 80),
+            captureButton.heightAnchor.constraint(equalToConstant: 80)
+        ])
+
+        // 버튼 액션 추가
         captureButton.addTarget(self, action: #selector(captureButtonTapped), for: .touchUpInside)
+        captureButton.addTarget(self, action: #selector(captureButtonTouchDown), for: .touchDown)
+        captureButton.addTarget(self, action: #selector(captureButtonTouchUp), for: [.touchUpInside, .touchUpOutside])
     }
 
+
     @objc private func captureButtonTapped() {
+        animateCaptureButton()
         viewModel.capturePhoto()
+    }
+
+    @objc private func captureButtonTouchDown() {
+        UIView.animate(withDuration: 0.1, animations: {
+            self.whiteCircle.transform = CGAffineTransform(scaleX: 0.85, y: 0.85)
+        })
+    }
+
+    @objc private func captureButtonTouchUp() {
+        UIView.animate(withDuration: 0.1, animations: {
+            self.whiteCircle.transform = .identity
+        })
+    }
+
+    private func animateCaptureButton() {
+        UIView.animate(withDuration: 0.1, animations: {
+            self.whiteCircle.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        }) { _ in
+            UIView.animate(withDuration: 0.1) {
+                self.whiteCircle.transform = .identity
+            }
+        }
     }
 
     // MARK: - 알림 창
@@ -216,28 +261,23 @@ class CaptureLicenseViewController: UIViewController {
             guideLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             guideLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: rectFrame.origin.y + rectFrame.height + 20) // 수정된 부분
         ])
+
+        /// 촬영 버튼이 상단으로 오도록 계층 조정
+        view.bringSubviewToFront(whiteCircle)
+        view.bringSubviewToFront(captureButton)
+
     }
 
     // MARK: - 흐림 효과
 
     /// 흐림 효과를 추가 (Alert 창 present 상태)
     private func addBlurEffect() {
-        // 블러 뷰 설정
         let blurEffect = UIBlurEffect(style: .light)
         let blurView = UIVisualEffectView(effect: blurEffect)
         blurView.frame = view.bounds
-
-        // 블러 전용 컨테이너 추가
-        let blurContainerView = UIView(frame: view.bounds)
-        blurContainerView.addSubview(blurView)
-        view.addSubview(blurContainerView)
-
+        view.addSubview(blurView)
         self.blurView = blurView
-
-        // 버튼이 블러 컨테이너 위에 오도록 계층 조정
-        view.bringSubviewToFront(captureButton)
     }
-
 
     /// 흐림 효과를 서서히 제거
     private func removeBlurEffect() {
