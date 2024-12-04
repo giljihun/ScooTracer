@@ -56,7 +56,7 @@ class StartingViewController: UIViewController, UIScrollViewDelegate {
         stepsScrollView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             stepsScrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stepsScrollView.topAnchor.constraint(equalTo: startLabel.bottomAnchor, constant: 40),
+            stepsScrollView.topAnchor.constraint(equalTo: startLabel.bottomAnchor, constant: 60),
             stepsScrollView.widthAnchor.constraint(equalTo: view.widthAnchor),
             stepsScrollView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.35) // 화면 높이의 35%로 설정
         ])
@@ -92,12 +92,12 @@ class StartingViewController: UIViewController, UIScrollViewDelegate {
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            pageControl.topAnchor.constraint(equalTo: stepsScrollView.bottomAnchor, constant: -5) // 더 가까운 위치에 배치
+            pageControl.topAnchor.constraint(equalTo: stepsScrollView.bottomAnchor, constant: 15) // 더 가까운 위치에 배치
         ])
 
         // 설명 레이블 설정
         descriptionImg.image = UIImage(systemName: "person.fill.viewfinder")
-        descriptionImg.tintColor = .systemBlue
+        descriptionImg.tintColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
         descriptionImg.alpha = 0
 
         descriptionLabel.text = "ScooTracer는 사용자의 안면 정보 이외의 신분증 정보를 저장하지 않습니다. 사용자의 안면 정보의 경우 KeyChain 암호화를 통해 안전하게 저장되며, 본 어플리케이션 활용 이외에 일절 활용하거나 수집하지 않습니다."
@@ -115,7 +115,7 @@ class StartingViewController: UIViewController, UIScrollViewDelegate {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             descriptionImg.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            descriptionImg.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: 80),
+            descriptionImg.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: 40),
             descriptionImg.widthAnchor.constraint(equalToConstant: 24),
             descriptionImg.heightAnchor.constraint(equalToConstant: 24),
 
@@ -127,7 +127,7 @@ class StartingViewController: UIViewController, UIScrollViewDelegate {
         // "계속" 버튼 설정
         continueBtn.setTitle("계속", for: .normal)
         continueBtn.setTitleColor(.white, for: .normal)
-        continueBtn.backgroundColor = .systemBlue
+        continueBtn.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
         continueBtn.layer.cornerRadius = 10
         continueBtn.alpha = 0
         continueBtn.addTarget(self, action: #selector(goToCaptureLicenseView), for: .touchUpInside)
