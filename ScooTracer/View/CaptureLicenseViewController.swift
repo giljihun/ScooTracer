@@ -134,7 +134,7 @@ class CaptureLicenseViewController: UIViewController {
         view.addSubview(whiteCircle)
         NSLayoutConstraint.activate([
             whiteCircle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            whiteCircle.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+            whiteCircle.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
             whiteCircle.widthAnchor.constraint(equalToConstant: 70),
             whiteCircle.heightAnchor.constraint(equalToConstant: 70)
         ])

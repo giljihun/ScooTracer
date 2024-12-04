@@ -22,7 +22,7 @@ class SplashViewController: UIViewController {
     }
 
     private func setupViews() {
-        view.backgroundColor = .black
+        view.backgroundColor = .white
 
         // 로고 설정
         logoImageView.image = UIImage(named: "Logo")
