@@ -77,9 +77,9 @@ class StartingViewController: UIViewController, UIScrollViewDelegate {
         ])
 
         // 임시 이미지 추가
-        addStepView(imageName: "Logo", description: "1. 운전면허 촬영")
-        addStepView(imageName: "Logo", description: "2. 본인 얼굴 촬영")
-        addStepView(imageName: "Logo", description: "3. 비교 프로세스 진행")
+        addStepView(imageName: "CapturingLicense", description: "1. 운전면허 촬영")
+        addStepView(imageName: "CapturingMyFace", description: "2. 본인 얼굴 촬영")
+        addStepView(imageName: "ComparingProcess", description: "3. 비교 프로세스 진행")
 
         // 페이지 컨트롤 설정
         pageControl.numberOfPages = 3

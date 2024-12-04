@@ -17,15 +17,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let window = UIWindow(windowScene: windowScene)
 
-        #if DEBUG
-        // 디버그 빌드에서 특정 화면으로 시작
-        let debugViewController = CaptureLicenseViewController() // 테스트할 화면
-        window.rootViewController = debugViewController
-        #else
+//        #if DEBUG
+//        // 디버그 빌드에서 특정 화면으로 시작
+//        let debugViewController = CaptureLicenseViewController() // 테스트할 화면
+//        window.rootViewController = debugViewController
+//        #else
         // 배포 빌드에서 기본 플로우 시작
         let splashViewController = SplashViewController()
         window.rootViewController = splashViewController
-        #endif
+        //#endif
 
         self.window = window
         window.makeKeyAndVisible()

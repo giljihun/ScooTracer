@@ -50,7 +50,11 @@ class CaptureLicenseViewModel {
 
     /// 카메라 세션 시작
     func startCameraSession() {
-        captureSession?.startRunning()
+        /// 메인 스레드 차단 방지 -> AVCaptureSession.startRunning() : 카메라 하드웨어를 초기화하는 작업.
+        /// 성능 향상을 위해 비동기 처리.
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                self?.captureSession?.startRunning()
+            }
     }
 
     /// 카메라 세션 종료

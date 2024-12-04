@@ -15,22 +15,22 @@ class CaptureLicenseViewController: UIViewController {
      AVFoundation을 사용한 카메라 구현의 기본 절차
 
      1. 세션 설정
-         - AVCaptureSession 초기화
-         : 입력(카메라 장치)과 출력(사진/비디오 데이터)을 연결할 세션을 생성.
+     - AVCaptureSession 초기화
+     : 입력(카메라 장치)과 출력(사진/비디오 데이터)을 연결할 세션을 생성.
 
-         - 입력 설정
-         : AVCaptureDevice로 카메라 장치를 선택 (전면/후면, 타입 등).
-         AVCaptureDeviceInput으로 선택한 장치를 세션에 추가.
+     - 입력 설정
+     : AVCaptureDevice로 카메라 장치를 선택 (전면/후면, 타입 등).
+     AVCaptureDeviceInput으로 선택한 장치를 세션에 추가.
 
-         - 출력 설정 (옵션)
-         원하는 경우, 데이터를 캡처하기 위한 출력(예: AVCapturePhotoOutput 등)을 추가.
+     - 출력 설정 (옵션)
+     원하는 경우, 데이터를 캡처하기 위한 출력(예: AVCapturePhotoOutput 등)을 추가.
 
-         - 프리뷰 설정
-         : AVCaptureVideoPreviewLayer를 사용해 실시간 카메라 데이터를 화면에 표시.
+     - 프리뷰 설정
+     : AVCaptureVideoPreviewLayer를 사용해 실시간 카메라 데이터를 화면에 표시.
 
      2. 세션 실행
-         - 세션 시작: captureSession.startRunning()
-         - 세션 중지: captureSession.stopRunning()
+     - 세션 시작: captureSession.startRunning()
+     - 세션 중지: captureSession.stopRunning()
      */
 
     // MARK: - Properties
@@ -137,17 +137,48 @@ class CaptureLicenseViewController: UIViewController {
 
     /// 면허증을 맞추기 위한 가이드 테두리를 설정
     private func setupLicenseBorder() {
-        licenseBorderView.layer.borderColor = UIColor.red.cgColor
-        licenseBorderView.layer.borderWidth = 2.0
-        licenseBorderView.backgroundColor = .clear
-        view.addSubview(licenseBorderView)
-        licenseBorderView.translatesAutoresizingMaskIntoConstraints = false
+        // 1. 전체 화면 크기와 테두리 영역 크기 정의
+        let overlayPath = UIBezierPath(rect: view.bounds)
+        // 중앙에 배치된 상자 프레임 계산
+        let rectWidth = view.bounds.width - 60
+        let rectHeight = view.bounds.height / 4
+        let rectX = (view.bounds.width - rectWidth) / 2 // 가로 중앙
+        let rectY = (view.bounds.height - rectHeight) / 2 // 세로 중앙
+        let rectFrame = CGRect(x: rectX, y: rectY, width: rectWidth, height: rectHeight)
+        let rectPath = UIBezierPath(roundedRect: rectFrame, cornerRadius: 20)
 
+        // 2. 내부를 투명하게 하기 위해 경로를 반전
+        overlayPath.append(rectPath)
+        overlayPath.usesEvenOddFillRule = true
+
+        // 3. 어두운 배경 레이어 설정
+        let fillLayer = CAShapeLayer()
+        fillLayer.path = overlayPath.cgPath
+        fillLayer.fillRule = .evenOdd
+        fillLayer.fillColor = UIColor.black.withAlphaComponent(0.6).cgColor
+        view.layer.addSublayer(fillLayer)
+
+        // 4. 테두리 레이어 설정
+        let borderLayer = CAShapeLayer()
+        borderLayer.path = rectPath.cgPath
+        borderLayer.strokeColor = UIColor.white.cgColor
+        borderLayer.lineWidth = 4
+        borderLayer.fillColor = UIColor.clear.cgColor
+        view.layer.addSublayer(borderLayer)
+
+        // 5. 중앙 메시지 추가
+        let guideLabel = UILabel()
+        guideLabel.text = "가이드 라인에 신분증을 맞춰주세요."
+        guideLabel.textColor = .white
+        guideLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        guideLabel.textAlignment = .center
+        guideLabel.numberOfLines = 0
+        view.addSubview(guideLabel)
+
+        guideLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            licenseBorderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            licenseBorderView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            licenseBorderView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
-            licenseBorderView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3)
+            guideLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            guideLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: rectFrame.origin.y + rectFrame.height + 20) // 수정된 부분
         ])
     }
 
