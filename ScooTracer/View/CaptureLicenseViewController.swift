@@ -74,10 +74,7 @@ class CaptureLicenseViewController: UIViewController {
 
         // ViewModel과 ViewController 간 데이터 연동
         observeViewModel()
-
-        // 카메라 권한 확인 요청
         viewModel.checkCameraAuthorization()
-
         setupCaptureButton()
     }
 
@@ -104,11 +101,11 @@ class CaptureLicenseViewController: UIViewController {
             self?.setupCameraPreview(with: session)
         }
 
-//        viewModel.onPhotoCaptured = { [weak self] capturedImage in
-//            DispatchQueue.main.async {
-//                self?.showCapturedPhoto(image: capturedImage)
-//            }
-//        }
+        viewModel.onPhotoCaptured = { [weak self] image in
+            DispatchQueue.main.async {
+                self?.showCapturedImageAlert(image: image)
+            }
+        }
     }
 
     // MARK: - 카메라 설정
@@ -211,6 +208,29 @@ class CaptureLicenseViewController: UIViewController {
             self?.setupLicenseBorder()
             self?.removeBlurEffect()
         })
+        present(alert, animated: true)
+    }
+
+    private func showCapturedImageAlert(image: UIImage) {
+        let alert = UIAlertController(title: "촬영 완료", message: "", preferredStyle: .alert)
+
+        let imageView = UIImageView(image: image)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        alert.view.addSubview(imageView)
+
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
+            imageView.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 50),
+//            imageView.widthAnchor.constraint(equalToConstant: 200),
+            imageView.heightAnchor.constraint(equalToConstant: 200)
+        ])
+
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        alert.addAction(UIAlertAction(title: "재촬영", style: .cancel) { [weak self] _ in
+            self?.viewModel.startCameraSession()
+        })
+
         present(alert, animated: true)
     }
 

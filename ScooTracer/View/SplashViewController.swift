@@ -56,7 +56,7 @@ class SplashViewController: UIViewController {
 
         // 시작하기 레이블 설정
         startLabel.text = "시작하기"
-        startLabel.textColor = .white
+        startLabel.textColor = .clear
         startLabel.font = UIFont.systemFont(ofSize: 40, weight: .bold)
         startLabel.textAlignment = .center
         startLabel.alpha = 0
