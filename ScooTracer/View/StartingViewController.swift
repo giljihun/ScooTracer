@@ -39,6 +39,7 @@ class StartingViewController: UIViewController, UIScrollViewDelegate {
         // "시작하기" 레이블 설정
         startLabel.text = "시작하기"
         startLabel.font = UIFont.systemFont(ofSize: 40, weight: .medium)
+        startLabel.alpha = 0
         startLabel.textColor = .darkGray
         view.addSubview(startLabel)
         startLabel.translatesAutoresizingMaskIntoConstraints = false
