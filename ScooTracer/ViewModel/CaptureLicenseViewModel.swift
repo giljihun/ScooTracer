@@ -6,15 +6,18 @@
 //
 
 import AVFoundation
+import UIKit
 
-class CaptureLicenseViewModel {
+class CaptureLicenseViewModel: NSObject {
 
     // MARK: - Properties
     var onPermissionGranted: (() -> Void)?
     var onPermissionDenied: (() -> Void)?
     var onCameraSessionConfigured: ((AVCaptureSession) -> Void)?
+    var onPhotoCaptured: ((UIImage) -> Void)?
 
     private var captureSession: AVCaptureSession?
+    private let photoOutput = AVCapturePhotoOutput()
 
     // MARK: - 카메라 권한 확인
     func checkCameraAuthorization() {
@@ -44,6 +47,10 @@ class CaptureLicenseViewModel {
         }
 
         session.addInput(input)
+        if session.canAddOutput(photoOutput) {
+            session.addOutput(photoOutput)
+        }
+
         self.captureSession = session
         onCameraSessionConfigured?(session)
     }
@@ -60,6 +67,23 @@ class CaptureLicenseViewModel {
     /// 카메라 세션 종료
     func stopCameraSession() {
         captureSession?.stopRunning()
+    }
+
+    /// 사진 촬영
+    func capturePhoto() {
+        let settings = AVCapturePhotoSettings()
+        settings.flashMode = .auto
+        photoOutput.capturePhoto(with: settings, delegate: self)
+    }
+}
+
+extension CaptureLicenseViewModel: AVCapturePhotoCaptureDelegate {
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        guard error == nil, let photoData = photo.fileDataRepresentation(), let image = UIImage(data: photoData) else {
+            print("사진 처리 실패: \(error?.localizedDescription ?? "알 수 없는 오류")")
+            return
+        }
+        onPhotoCaptured?(image)
     }
 }
 

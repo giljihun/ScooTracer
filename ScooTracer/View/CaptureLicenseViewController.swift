@@ -47,6 +47,9 @@ class CaptureLicenseViewController: UIViewController {
     /// 카메라 화면에 흐림 효과를 추가하기 위한 뷰
     private var blurView: UIVisualEffectView?
 
+    /// 촬영 버튼
+    private let captureButton = UIButton()
+
     // MARK: - 생명 주기 메서드
 
     override func viewDidLoad() {
@@ -58,6 +61,8 @@ class CaptureLicenseViewController: UIViewController {
 
         // 카메라 권한 확인 요청
         viewModel.checkCameraAuthorization()
+
+        setupCaptureButton()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -82,6 +87,12 @@ class CaptureLicenseViewController: UIViewController {
         viewModel.onCameraSessionConfigured = { [weak self] session in
             self?.setupCameraPreview(with: session)
         }
+
+//        viewModel.onPhotoCaptured = { [weak self] capturedImage in
+//            DispatchQueue.main.async {
+//                self?.showCapturedPhoto(image: capturedImage)
+//            }
+//        }
     }
 
     // MARK: - 카메라 설정
@@ -99,6 +110,31 @@ class CaptureLicenseViewController: UIViewController {
 
         // Alert 창에서 카메라 흐림 효과
         addBlurEffect()
+    }
+
+    /// 촬영 버튼 설정
+    private func setupCaptureButton() {
+        captureButton.backgroundColor = .white
+        captureButton.layer.cornerRadius = 35
+        captureButton.layer.borderWidth = 4
+        captureButton.layer.borderColor = UIColor.lightGray.cgColor
+        captureButton.clipsToBounds = true
+
+        captureButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(captureButton)
+
+        NSLayoutConstraint.activate([
+            captureButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            captureButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
+            captureButton.widthAnchor.constraint(equalToConstant: 70),
+            captureButton.heightAnchor.constraint(equalToConstant: 70)
+        ])
+
+        captureButton.addTarget(self, action: #selector(captureButtonTapped), for: .touchUpInside)
+    }
+
+    @objc private func captureButtonTapped() {
+        viewModel.capturePhoto()
     }
 
     // MARK: - 알림 창
@@ -186,12 +222,22 @@ class CaptureLicenseViewController: UIViewController {
 
     /// 흐림 효과를 추가 (Alert 창 present 상태)
     private func addBlurEffect() {
+        // 블러 뷰 설정
         let blurEffect = UIBlurEffect(style: .light)
         let blurView = UIVisualEffectView(effect: blurEffect)
         blurView.frame = view.bounds
-        view.addSubview(blurView)
+
+        // 블러 전용 컨테이너 추가
+        let blurContainerView = UIView(frame: view.bounds)
+        blurContainerView.addSubview(blurView)
+        view.addSubview(blurContainerView)
+
         self.blurView = blurView
+
+        // 버튼이 블러 컨테이너 위에 오도록 계층 조정
+        view.bringSubviewToFront(captureButton)
     }
+
 
     /// 흐림 효과를 서서히 제거
     private func removeBlurEffect() {
