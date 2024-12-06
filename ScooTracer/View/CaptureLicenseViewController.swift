@@ -216,15 +216,17 @@ class CaptureLicenseViewController: UIViewController {
 
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
         alert.view.addSubview(imageView)
 
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
-            imageView.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 50),
-//            imageView.widthAnchor.constraint(equalToConstant: 200),
+            // imageView.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 50),
+            // imageView.widthAnchor.constraint(equalToConstant: 200),
             imageView.heightAnchor.constraint(equalToConstant: 200)
+
         ])
+
+        imageView.contentMode = .scaleAspectFit
 
         alert.addAction(UIAlertAction(title: "확인", style: .default))
         alert.addAction(UIAlertAction(title: "재촬영", style: .cancel) { [weak self] _ in
