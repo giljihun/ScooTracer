@@ -216,11 +216,13 @@ class StartingViewController: UIViewController, UIScrollViewDelegate {
 
     @objc private func goToCaptureLicenseView() {
         let captureLicenseVC = CaptureLicenseViewController()
-        captureLicenseVC.modalTransitionStyle = .crossDissolve
-        captureLicenseVC.modalPresentationStyle = .fullScreen
-        self.present(captureLicenseVC, animated: true, completion: nil)
+        if let navigationController = self.navigationController {
+            print("네비게이션 컨트롤러가 있음. 푸쉬 실행")
+            navigationController.pushViewController(captureLicenseVC, animated: true)
+        } else {
+            print("네비게이션 컨트롤러가 없음. 푸쉬 불가능")
+        }
     }
-
 
     // 버튼 눌렸을 때 축소
     @objc private func buttonTouchDown(_ sender: UIButton) {

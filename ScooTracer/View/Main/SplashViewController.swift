@@ -120,7 +120,11 @@ class SplashViewController: UIViewController {
     private func goToStartingView() {
         let startingViewController = StartingViewController()
         let navigationController = UINavigationController(rootViewController: startingViewController)
-        self.view.window?.rootViewController = navigationController
-    }
 
+        guard let window = self.view.window else { return }
+
+        UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: {
+            window.rootViewController = navigationController
+        }, completion: nil)
+    }
 }

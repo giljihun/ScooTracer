@@ -69,7 +69,7 @@ class CustomAlertViewController: UIViewController {
 
         // 확인 버튼
         let confirmButton = createStyledButton(title: "확인", backgroundColor: .systemBlue)
-        confirmButton.addTarget(self, action: #selector(dismissAlert), for: .touchUpInside)
+        confirmButton.addTarget(self, action: #selector(confirmAlert), for: .touchUpInside)
         buttonStackView.addArrangedSubview(confirmButton)
 
         // 재촬영 버튼
@@ -120,13 +120,33 @@ class CustomAlertViewController: UIViewController {
         return button
     }
 
-    @objc private func dismissAlert() {
-        dismiss(animated: true, completion: nil)
+    @objc private func confirmAlert() {
+        dismiss(animated: true) {
+            // 현재 활성화된 UIWindowScene을 가져옴
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first,
+               let navigationController = window.rootViewController as? UINavigationController {
+
+                // SelfieCaptureViewController로 이동
+                let selfieVC = SelfieCaptureViewController()
+                navigationController.pushViewController(selfieVC, animated: true)
+            } else {
+                print("네비게이션 컨트롤러를 찾을 수 없습니다.")
+            }
+        }
     }
 
     @objc private func retakePhoto() {
         dismiss(animated: true) {
             self.onRetake?()
         }
+    }
+
+    // MARK: - 뷰 이동
+    @objc private func goToSelfieView() {
+        let selfieVC = SelfieCaptureViewController()
+        selfieVC.modalTransitionStyle = .crossDissolve
+        selfieVC.modalPresentationStyle = .fullScreen
+        self.present(selfieVC, animated: true, completion: nil)
     }
 }
