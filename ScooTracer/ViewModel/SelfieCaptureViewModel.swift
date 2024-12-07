@@ -66,10 +66,12 @@ class SelfieCaptureViewModel: NSObject {
         captureSession?.stopRunning()
     }
 
-    func capturePhoto() {
+    func capturePhoto(completion: @escaping (UIImage) -> Void) {
         let settings = AVCapturePhotoSettings()
         settings.flashMode = .off
         photoOutput.capturePhoto(with: settings, delegate: self)
+
+        self.onPhotoCaptured = completion
     }
 }
 

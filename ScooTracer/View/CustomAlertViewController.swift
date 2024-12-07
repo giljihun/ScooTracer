@@ -36,6 +36,7 @@ class CustomAlertViewController: UIViewController {
         let containerView = UIView()
         containerView.backgroundColor = .white
         containerView.layer.cornerRadius = 16
+        containerView.layer.masksToBounds = false
         containerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(containerView)
 
@@ -47,17 +48,23 @@ class CustomAlertViewController: UIViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(titleLabel)
 
+        // 그림자 컨테이너 뷰
+        let shadowContainer = UIView()
+        shadowContainer.backgroundColor = .clear
+        shadowContainer.layer.shadowColor = UIColor.black.cgColor
+        shadowContainer.layer.shadowOpacity = 0.2
+        shadowContainer.layer.shadowOffset = CGSize(width: 2, height: 2)
+        shadowContainer.layer.shadowRadius = 4
+        shadowContainer.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(shadowContainer)
+
         // 이미지 뷰
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 8
         imageView.layer.masksToBounds = true
-        imageView.layer.shadowColor = UIColor.black.cgColor
-        imageView.layer.shadowOpacity = 0.2
-        imageView.layer.shadowOffset = CGSize(width: 2, height: 2)
-        imageView.layer.shadowRadius = 4
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(imageView)
+        shadowContainer.addSubview(imageView)
 
         // 버튼 스택 뷰
         let buttonStackView = UIStackView()
@@ -95,11 +102,17 @@ class CustomAlertViewController: UIViewController {
             titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
             titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
 
+            // 그림자 컨테이너
+            shadowContainer.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            shadowContainer.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
+            shadowContainer.widthAnchor.constraint(equalToConstant: min(260, imageWidth)),
+            shadowContainer.heightAnchor.constraint(equalToConstant: min(180, imageHeight)),
+
             // 이미지 뷰
-            imageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
-            imageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: min(260, imageWidth)),
-            imageView.heightAnchor.constraint(equalToConstant: min(180, imageHeight)),
+            imageView.leadingAnchor.constraint(equalTo: shadowContainer.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: shadowContainer.trailingAnchor),
+            imageView.topAnchor.constraint(equalTo: shadowContainer.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: shadowContainer.bottomAnchor),
 
             // 버튼 스택
             buttonStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
@@ -122,19 +135,28 @@ class CustomAlertViewController: UIViewController {
 
     @objc private func confirmAlert() {
         dismiss(animated: true) {
-            // 현재 활성화된 UIWindowScene을 가져옴
-            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let window = windowScene.windows.first,
-               let navigationController = window.rootViewController as? UINavigationController {
+            // 현재 활성화된 UIWindowScene 가져오기
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let window = windowScene.windows.first,
+                  let navigationController = window.rootViewController as? UINavigationController else {
+                print("네비게이션 컨트롤러를 찾을 수 없습니다.")
+                return
+            }
 
+            // 현재 화면(topViewController)에 따라 분기 처리
+            if navigationController.topViewController is CaptureLicenseViewController {
                 // SelfieCaptureViewController로 이동
                 let selfieVC = SelfieCaptureViewController()
                 navigationController.pushViewController(selfieVC, animated: true)
+            } else if navigationController.topViewController is SelfieCaptureViewController {
+                // TODO: 다른 화면으로 이동 (추후 구현)
+                print("TODO: 다음 화면으로 이동 로직 추가")
             } else {
-                print("네비게이션 컨트롤러를 찾을 수 없습니다.")
+                print("예상치 못한 topViewController입니다.")
             }
         }
     }
+
 
     @objc private func retakePhoto() {
         dismiss(animated: true) {

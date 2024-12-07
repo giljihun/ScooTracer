@@ -10,6 +10,7 @@
 		F2872B312D0469D800ABA150 /* CustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2872B302D0469D800ABA150 /* CustomAlertViewController.swift */; };
 		F2872B352D0486F200ABA150 /* SelfieCaptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2872B342D0486F200ABA150 /* SelfieCaptureViewModel.swift */; };
 		F2872B372D04870800ABA150 /* SelfieCaptureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2872B362D04870800ABA150 /* SelfieCaptureViewController.swift */; };
+		F2872B392D0493EB00ABA150 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2872B382D0493EB00ABA150 /* UIViewExtensions.swift */; };
 		F2C140802CDB722900760C9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C1407F2CDB722900760C9A /* AppDelegate.swift */; };
 		F2C140822CDB722900760C9A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C140812CDB722900760C9A /* SceneDelegate.swift */; };
 		F2C140842CDB722900760C9A /* StartingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C140832CDB722900760C9A /* StartingViewController.swift */; };
@@ -23,6 +24,7 @@
 		F2872B302D0469D800ABA150 /* CustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertViewController.swift; sourceTree = "<group>"; };
 		F2872B342D0486F200ABA150 /* SelfieCaptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfieCaptureViewModel.swift; sourceTree = "<group>"; };
 		F2872B362D04870800ABA150 /* SelfieCaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfieCaptureViewController.swift; sourceTree = "<group>"; };
+		F2872B382D0493EB00ABA150 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		F2C1407C2CDB722900760C9A /* ScooTracer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScooTracer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C1407F2CDB722900760C9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F2C140812CDB722900760C9A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 		F2C1409A2CDB886A00760C9A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				F2872B382D0493EB00ABA150 /* UIViewExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 				F2C140A12CEB2E3E00760C9A /* CaptureLicenseViewModel.swift in Sources */,
 				F2C140802CDB722900760C9A /* AppDelegate.swift in Sources */,
 				F2C140822CDB722900760C9A /* SceneDelegate.swift in Sources */,
+				F2872B392D0493EB00ABA150 /* UIViewExtensions.swift in Sources */,
 				F2C1409D2CE46FDB00760C9A /* SplashViewController.swift in Sources */,
 				F2872B352D0486F200ABA150 /* SelfieCaptureViewModel.swift in Sources */,
 				F2872B312D0469D800ABA150 /* CustomAlertViewController.swift in Sources */,

@@ -151,10 +151,21 @@ class CaptureLicenseViewController: UIViewController {
         captureButton.addTarget(self, action: #selector(captureButtonTouchUp), for: [.touchUpInside, .touchUpOutside])
     }
 
-
+    
     @objc private func captureButtonTapped() {
         animateCaptureButton()
-        viewModel.capturePhoto()
+        showLoading() // 로딩 시작
+
+        viewModel.capturePhoto { [weak self] image in
+            DispatchQueue.main.async {
+                self?.hideLoading() // 로딩 숨김
+                let alertVC = CustomAlertViewController(image: image) {
+                    // 재촬영 로직
+                    self?.viewModel.startCameraSession()
+                }
+                self?.present(alertVC, animated: true)
+            }
+        }
     }
 
     @objc private func captureButtonTouchDown() {

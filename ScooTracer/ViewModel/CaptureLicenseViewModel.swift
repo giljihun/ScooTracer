@@ -68,11 +68,14 @@ class CaptureLicenseViewModel: NSObject {
     }
 
     // MARK: - 사진 촬영
-    func capturePhoto() {
+    func capturePhoto(completion: @escaping (UIImage) -> Void) {
         let settings = AVCapturePhotoSettings()
         settings.flashMode = .off
         photoOutput.capturePhoto(with: settings, delegate: self)
+
+        self.onPhotoCaptured = completion
     }
+
 
     // MARK: - 얼굴 탐지 및 비율 조정
     private func processCapturedImage(_ image: UIImage, targetAspectRatio: CGFloat = 1.0) -> UIImage? {
