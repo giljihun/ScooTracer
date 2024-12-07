@@ -43,6 +43,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F2872B322D0482AE00ABA150 /* Sub */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sub;
+			sourceTree = "<group>";
+		};
+		F2872B332D0482BC00ABA150 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				F2C1409C2CE46FDA00760C9A /* SplashViewController.swift */,
+				F2C140832CDB722900760C9A /* StartingViewController.swift */,
+				F2C1409E2CEB20A600760C9A /* CaptureLicenseViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		F2C140732CDB722900760C9A = {
 			isa = PBXGroup;
 			children = (
@@ -88,9 +105,8 @@
 		F2C140962CDB885600760C9A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F2C1409C2CE46FDA00760C9A /* SplashViewController.swift */,
-				F2C140832CDB722900760C9A /* StartingViewController.swift */,
-				F2C1409E2CEB20A600760C9A /* CaptureLicenseViewController.swift */,
+				F2872B332D0482BC00ABA150 /* Main */,
+				F2872B322D0482AE00ABA150 /* Sub */,
 				F2872B302D0469D800ABA150 /* CustomAlertViewController.swift */,
 			);
 			path = View;
