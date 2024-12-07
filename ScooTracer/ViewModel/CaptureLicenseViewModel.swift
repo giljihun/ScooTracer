@@ -163,14 +163,14 @@ class CaptureLicenseViewModel: NSObject {
 
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: "capturedFace",
+            kSecAttrAccount as String: "licensePhoto",
             kSecValueData as String: imageData
         ]
 
         SecItemDelete(query as CFDictionary) // 기존 항목 삭제
         let status = SecItemAdd(query as CFDictionary, nil)
 
-        print(status == errSecSuccess ? "얼굴 이미지 KeyChain에 저장 성공" : "KeyChain 저장 실패: \(status)")
+        print(status == errSecSuccess ? "라이센스 얼굴 이미지 KeyChain에 저장 성공" : "KeyChain 저장 실패: \(status)")
     }
 }
 

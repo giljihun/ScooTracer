@@ -74,6 +74,24 @@ class SelfieCaptureViewModel: NSObject {
         self.onPhotoCaptured = completion
     }
 }
+// MARK: - Keychain 저장
+private func saveToKeychain(_ faceImage: UIImage) {
+    guard let imageData = faceImage.jpegData(compressionQuality: 0.8) else {
+        print("얼굴 이미지 데이터 변환 실패")
+        return
+    }
+
+    let query: [String: Any] = [
+        kSecClass as String: kSecClassGenericPassword,
+        kSecAttrAccount as String: "selfiePhoto",
+        kSecValueData as String: imageData
+    ]
+
+    SecItemDelete(query as CFDictionary) // 기존 항목 삭제
+    let status = SecItemAdd(query as CFDictionary, nil)
+
+    print(status == errSecSuccess ? "본인 얼굴 이미지 KeyChain에 저장 성공" : "KeyChain 저장 실패: \(status)")
+}
 
 // MARK: - AVCapturePhotoCaptureDelegate
 extension SelfieCaptureViewModel: AVCapturePhotoCaptureDelegate {
