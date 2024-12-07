@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F2872B312D0469D800ABA150 /* CustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2872B302D0469D800ABA150 /* CustomAlertViewController.swift */; };
 		F2C140802CDB722900760C9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C1407F2CDB722900760C9A /* AppDelegate.swift */; };
 		F2C140822CDB722900760C9A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C140812CDB722900760C9A /* SceneDelegate.swift */; };
 		F2C140842CDB722900760C9A /* StartingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C140832CDB722900760C9A /* StartingViewController.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F2872B302D0469D800ABA150 /* CustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertViewController.swift; sourceTree = "<group>"; };
 		F2C1407C2CDB722900760C9A /* ScooTracer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScooTracer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C1407F2CDB722900760C9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F2C140812CDB722900760C9A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				F2C1409C2CE46FDA00760C9A /* SplashViewController.swift */,
 				F2C140832CDB722900760C9A /* StartingViewController.swift */,
 				F2C1409E2CEB20A600760C9A /* CaptureLicenseViewController.swift */,
+				F2872B302D0469D800ABA150 /* CustomAlertViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -204,6 +207,7 @@
 				F2C140802CDB722900760C9A /* AppDelegate.swift in Sources */,
 				F2C140822CDB722900760C9A /* SceneDelegate.swift in Sources */,
 				F2C1409D2CE46FDB00760C9A /* SplashViewController.swift in Sources */,
+				F2872B312D0469D800ABA150 /* CustomAlertViewController.swift in Sources */,
 				F2C1409F2CEB20A700760C9A /* CaptureLicenseViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

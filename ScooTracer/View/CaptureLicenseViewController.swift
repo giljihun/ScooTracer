@@ -212,29 +212,12 @@ class CaptureLicenseViewController: UIViewController {
     }
 
     private func showCapturedImageAlert(image: UIImage) {
-        let alert = UIAlertController(title: "촬영 완료", message: "", preferredStyle: .alert)
-
-        let imageView = UIImageView(image: image)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        alert.view.addSubview(imageView)
-
-        NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
-            // imageView.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 50),
-            // imageView.widthAnchor.constraint(equalToConstant: 200),
-            imageView.heightAnchor.constraint(equalToConstant: 200)
-
-        ])
-
-        imageView.contentMode = .scaleAspectFit
-
-        alert.addAction(UIAlertAction(title: "확인", style: .default))
-        alert.addAction(UIAlertAction(title: "재촬영", style: .cancel) { [weak self] _ in
-            self?.viewModel.startCameraSession()
-        })
-
-        present(alert, animated: true)
+        let alertVC = CustomAlertViewController(image: image) { [weak self] in
+            self?.viewModel.startCameraSession() // 재촬영 로직
+        }
+        present(alertVC, animated: true)
     }
+
 
     // MARK: - 면허증 테두리
 
