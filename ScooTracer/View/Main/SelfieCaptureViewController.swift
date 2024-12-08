@@ -154,7 +154,7 @@ class SelfieCaptureViewController: UIViewController {
     /// 면허증 촬영 가이드 알림 창 표시
     private func showGuideAlert() {
         let alert = UIAlertController(
-            title: "본인 얼굴 촬영 가이드 🚀",
+            title: "본인 얼굴 촬영 가이드 😎",
             message: "\n얼굴이 화면의 80% 이상 나오도록 촬영해주세요.",
             preferredStyle: .alert
         )

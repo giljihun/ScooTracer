@@ -15,7 +15,7 @@ class CaptureLicenseViewModel: NSObject {
     var onPermissionGranted: (() -> Void)?
     var onPermissionDenied: (() -> Void)?
     var onCameraSessionConfigured: ((AVCaptureSession) -> Void)?
-    var onPhotoCaptured: ((UIImage) -> Void)?
+    var onPhotoCaptured: ((Result<UIImage, Error>) -> Void)?
 
     private var captureSession: AVCaptureSession?
     private let photoOutput = AVCapturePhotoOutput()
@@ -68,14 +68,13 @@ class CaptureLicenseViewModel: NSObject {
     }
 
     // MARK: - 사진 촬영
-    func capturePhoto(completion: @escaping (UIImage) -> Void) {
+    func capturePhoto(completion: @escaping (Result<UIImage, Error>) -> Void) {
         let settings = AVCapturePhotoSettings()
         settings.flashMode = .off
         photoOutput.capturePhoto(with: settings, delegate: self)
 
         self.onPhotoCaptured = completion
     }
-
 
     // MARK: - 얼굴 탐지 및 비율 조정
     private func processCapturedImage(_ image: UIImage, targetAspectRatio: CGFloat = 1.0) -> UIImage? {
@@ -177,18 +176,26 @@ class CaptureLicenseViewModel: NSObject {
 // MARK: - AVCapturePhotoCaptureDelegate
 extension CaptureLicenseViewModel: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        guard let photoData = photo.fileDataRepresentation(),
-              let image = UIImage(data: photoData) else {
-            print("사진 처리 실패: \(error?.localizedDescription ?? "알 수 없는 오류")")
+        if let error = error {
+            print("사진 처리 실패: \(error.localizedDescription)")
+            onPhotoCaptured?(.failure(error))
             return
         }
 
-        // 얼굴 영역 추출
+        guard let photoData = photo.fileDataRepresentation(),
+              let image = UIImage(data: photoData) else {
+            let error = NSError(domain: "PhotoCaptureError", code: -1, userInfo: [NSLocalizedDescriptionKey: "사진 데이터 변환 실패"])
+            onPhotoCaptured?(.failure(error))
+            return
+        }
+
         if let faceImage = processCapturedImage(image, targetAspectRatio: 1.0) { // 1:1 비율
             saveToKeychain(faceImage)
-            onPhotoCaptured?(faceImage)
+            onPhotoCaptured?(.success(faceImage))
         } else {
-            print("얼굴 인식 실패")
+            let error = NSError(domain: "FaceDetectionError", code: -2, userInfo: [NSLocalizedDescriptionKey: "얼굴을 인식하지 못했어요!"])
+            onPhotoCaptured?(.failure(error))
         }
     }
 }
+

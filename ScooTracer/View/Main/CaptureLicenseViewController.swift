@@ -101,9 +101,14 @@ class CaptureLicenseViewController: UIViewController {
             self?.setupCameraPreview(with: session)
         }
 
-        viewModel.onPhotoCaptured = { [weak self] image in
+        viewModel.onPhotoCaptured = { [weak self] result in
             DispatchQueue.main.async {
-                self?.showCapturedImageAlert(image: image)
+                switch result {
+                case .success(let image):
+                    self?.showCapturedImageAlert(image: image)
+                case .failure:
+                    self?.showToast(message: "얼굴을 인식하지 못했습니다.", duration: 2.0)
+                }
             }
         }
     }
@@ -151,19 +156,27 @@ class CaptureLicenseViewController: UIViewController {
         captureButton.addTarget(self, action: #selector(captureButtonTouchUp), for: [.touchUpInside, .touchUpOutside])
     }
 
-    
+
     @objc private func captureButtonTapped() {
         animateCaptureButton()
         showLoading() // 로딩 시작
 
-        viewModel.capturePhoto { [weak self] image in
+        viewModel.capturePhoto { [weak self] result in
             DispatchQueue.main.async {
                 self?.hideLoading() // 로딩 숨김
-                let alertVC = CustomAlertViewController(image: image) {
-                    // 재촬영 로직
-                    self?.viewModel.startCameraSession()
+                switch result {
+                case .success(let image):
+                    // 성공 시 CustomAlertViewController를 표시
+                    let alertVC = CustomAlertViewController(image: image) {
+                        // 재촬영 로직
+                        self?.viewModel.startCameraSession()
+                    }
+                    self?.present(alertVC, animated: true)
+                case .failure(let error):
+                    // 실패 시 토스트 메시지 표시
+                    self?.showToast(message: "\(error.localizedDescription)", duration: 2.0)
+                    self?.viewModel.startCameraSession() // 세션 재시작
                 }
-                self?.present(alertVC, animated: true)
             }
         }
     }
@@ -227,6 +240,38 @@ class CaptureLicenseViewController: UIViewController {
             self?.viewModel.startCameraSession() // 재촬영 로직
         }
         present(alertVC, animated: true)
+    }
+
+    /// 토스트 메시지 표시
+    private func showToast(message: String, duration: TimeInterval) {
+        let toastLabel = UILabel()
+        toastLabel.text = message
+        toastLabel.textColor = .white
+        toastLabel.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
+        toastLabel.textAlignment = .center
+        toastLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        toastLabel.layer.cornerRadius = 8
+        toastLabel.clipsToBounds = true
+        toastLabel.alpha = 0
+        toastLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(toastLabel)
+
+        NSLayoutConstraint.activate([
+            toastLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200),
+            toastLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            toastLabel.widthAnchor.constraint(equalToConstant: 190),
+            toastLabel.heightAnchor.constraint(equalToConstant: 35)
+        ])
+
+        UIView.animate(withDuration: 0.5, animations: {
+            toastLabel.alpha = 1
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.5, delay: duration, options: [], animations: {
+                toastLabel.alpha = 0
+            }, completion: { _ in
+                toastLabel.removeFromSuperview()
+            })
+        })
     }
 
 
