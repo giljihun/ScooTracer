@@ -2,41 +2,28 @@
 //  ComparisonViewController.swift
 //  ScooTracer
 //
-//  Created by mobicom on 12/9/24.
+//  Created by mobicom on 12/10/24.
 //
 
 import UIKit
-import CoreML
 
 class ComparisonViewController: UIViewController {
 
     // MARK: - Properties
     private let viewModel = ComparisonViewModel()
 
-    private let activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .large)
-        indicator.color = .gray
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        return indicator
-    }()
-
-    private let statusLabel: UILabel = {
-        let label = UILabel()
-        label.text = "사진을 비교 중입니다..."
-        label.textColor = .darkGray
-        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
     private let licenseImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = .lightGray
-        imageView.layer.borderColor = UIColor.darkGray.cgColor
-        imageView.layer.borderWidth = 1
+        imageView.backgroundColor = .white
+//        imageView.layer.borderColor = UIColor.lightGray.cgColor
+//        imageView.layer.borderWidth = 1
+        imageView.layer.shadowColor = UIColor.black.cgColor
+        imageView.layer.shadowOpacity = 0.2
+        imageView.layer.shadowOffset = CGSize(width: 3, height: 3)
+        imageView.layer.shadowRadius = 5
+        imageView.alpha = 0
         return imageView
     }()
 
@@ -44,10 +31,65 @@ class ComparisonViewController: UIViewController {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = .lightGray
-        imageView.layer.borderColor = UIColor.darkGray.cgColor
-        imageView.layer.borderWidth = 1
+        imageView.backgroundColor = .white
+//        imageView.layer.borderColor = UIColor.lightGray.cgColor
+//        imageView.layer.borderWidth = 1
+        imageView.layer.shadowColor = UIColor.black.cgColor
+        imageView.layer.shadowOpacity = 0.2
+        imageView.layer.shadowOffset = CGSize(width: 3, height: 3)
+        imageView.layer.shadowRadius = 5
+        imageView.alpha = 0
         return imageView
+    }()
+
+    private let statusLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .darkGray
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.alpha = 0
+        return label
+    }()
+
+    private let retryButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("재검사하기", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 10
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.alpha = 0
+        return button
+    }()
+
+    private let XIconView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        view.alpha = 0 // 애니메이션 전에 숨김 상태
+        return view
+    }()
+
+    private let nextButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("다음", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 10
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.alpha = 0
+        return button
+    }()
+
+    private let checkIconView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        view.alpha = 0 // 애니메이션 전에 숨김 상태
+        return view
     }()
 
     // MARK: - Lifecycle
@@ -55,6 +97,7 @@ class ComparisonViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupUI()
+        setupActions()
         startComparison()
     }
 
@@ -62,69 +105,196 @@ class ComparisonViewController: UIViewController {
     private func setupUI() {
         view.addSubview(licenseImageView)
         view.addSubview(selfieImageView)
-        view.addSubview(activityIndicator)
         view.addSubview(statusLabel)
+        view.addSubview(retryButton)
+        view.addSubview(nextButton)
+        view.addSubview(XIconView)
+        view.addSubview(checkIconView)
 
         NSLayoutConstraint.activate([
             // License ImageView Constraints
             licenseImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             licenseImageView.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -10),
-            licenseImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            licenseImageView.heightAnchor.constraint(equalToConstant: 160),
+            licenseImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 170), // 위치를 더 아래로 이동
+            licenseImageView.heightAnchor.constraint(equalToConstant: 150),
 
             // Selfie ImageView Constraints
             selfieImageView.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 10),
             selfieImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            selfieImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            selfieImageView.heightAnchor.constraint(equalToConstant: 160),
-
-            // Activity Indicator Constraints
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            selfieImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 170), // 위치를 더 아래로 이동
+            selfieImageView.heightAnchor.constraint(equalToConstant: 150),
 
             // Status Label Constraints
-            statusLabel.topAnchor.constraint(equalTo: activityIndicator.bottomAnchor, constant: 20),
+            statusLabel.topAnchor.constraint(equalTo: licenseImageView.bottomAnchor, constant: 50), // 아래로 이동
             statusLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+            // Retry Button Constraints
+            retryButton.topAnchor.constraint(equalTo: XIconView.bottomAnchor, constant: 20),
+            retryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            retryButton.widthAnchor.constraint(equalToConstant: 120),
+            retryButton.heightAnchor.constraint(equalToConstant: 40),
+
+            // Next Button Constraints
+            nextButton.topAnchor.constraint(equalTo: checkIconView.bottomAnchor, constant: 20),
+            nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nextButton.widthAnchor.constraint(equalToConstant: 120),
+            nextButton.heightAnchor.constraint(equalToConstant: 40),
+
+            // Check Icon Constraints
+            checkIconView.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 20),
+            checkIconView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            checkIconView.widthAnchor.constraint(equalToConstant: 50),
+            checkIconView.heightAnchor.constraint(equalToConstant: 50),
+
+            // Check Icon Constraints
+            XIconView.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 20),
+            XIconView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            XIconView.widthAnchor.constraint(equalToConstant: 50),
+            XIconView.heightAnchor.constraint(equalToConstant: 50),
         ])
+    }
+
+    // MARK: - Actions Setup
+    private func setupActions() {
+        retryButton.addTarget(self, action: #selector(handleRetry), for: .touchUpInside)
     }
 
     // MARK: - Comparison Logic
     private func startComparison() {
-        activityIndicator.startAnimating()
+        UIView.animate(withDuration: 1.0) {
+            self.licenseImageView.alpha = 1.0
+            self.selfieImageView.alpha = 1.0
+        }
 
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self = self else { return }
 
-            // 1. 키체인에서 이미지 불러오기 및 리사이즈
             let targetSize = CGSize(width: 160, height: 160)
             guard let licenseImage = self.viewModel.loadAndResizeImage(for: "licensePhoto", targetSize: targetSize),
                   let selfieImage = self.viewModel.loadAndResizeImage(for: "selfiePhoto", targetSize: targetSize) else {
                 DispatchQueue.main.async {
-                    self.activityIndicator.stopAnimating()
-                    print("키체인에서 이미지 불러오기 또는 리사이즈 실패")
+                    self.statusLabel.text = "이미지를 불러오지 못했습니다."
+                    self.statusLabel.alpha = 1.0
                 }
                 return
             }
 
-            // 2. 메인 스레드에서 이미지 표시
             DispatchQueue.main.async {
                 self.licenseImageView.image = licenseImage
                 self.selfieImageView.image = selfieImage
             }
 
-            // 3. 유사도 비교
             let similarity = self.viewModel.compareImages(licenseImage: licenseImage, selfieImage: selfieImage)
 
-            // 4. 결과 처리
+            print("정확도: \(similarity!)")
+
             DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-                if let similarity = similarity {
-                    print("유사도 결과: \(similarity)")
-                    self.statusLabel.text = "유사도 결과: \(similarity)"
+                // TODO: - 임계점 임시 설정 ..
+                if let similarity = similarity, similarity > 0.65 {
+                    self.showSuccess()
                 } else {
-                    print("이미지 비교 실패")
+                    self.showFailure()
                 }
             }
         }
+    }
+
+    private func showSuccess() {
+        statusLabel.text = "검사가 완료되었습니다."
+        UIView.animate(withDuration: 1.0) {
+            self.statusLabel.alpha = 1.0
+            self.nextButton.alpha = 1.0
+        }
+        animateCheckIcon()
+    }
+
+
+    private func showFailure() {
+        statusLabel.text = "본인이 아닌 것 같아요.\n재검사를 진행할게요."
+        UIView.animate(withDuration: 1.0) {
+            self.statusLabel.alpha = 1.0
+            self.retryButton.alpha = 1.0
+        }
+        animateXIcon()
+    }
+
+    private func animateCheckIcon() {
+        // 체크 아이콘을 CoreAnimation으로 그리기
+        let checkPath = UIBezierPath()
+        checkPath.move(to: CGPoint(x: 10, y: 25))
+        checkPath.addLine(to: CGPoint(x: 20, y: 35))
+        checkPath.addLine(to: CGPoint(x: 40, y: 10))
+
+        let checkLayer = CAShapeLayer()
+        checkLayer.path = checkPath.cgPath
+        checkLayer.strokeColor = #colorLiteral(red: 0.1822504402, green: 0.6936355745, blue: 0.2316807986, alpha: 1)
+        checkLayer.fillColor = UIColor.clear.cgColor
+        checkLayer.lineWidth = 4
+        checkLayer.lineCap = .round
+
+        // 기존 레이어 제거 후 새 레이어 추가
+        checkIconView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        checkIconView.layer.addSublayer(checkLayer)
+
+        // 애니메이션 설정
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = 0
+        animation.toValue = 1
+        animation.duration = 1.2 // 애니메이션 시간을 늘림 (1.5초)
+        checkLayer.add(animation, forKey: "checkAnimation")
+
+        // 체크 아이콘 전체 크기 애니메이션
+        UIView.animate(withDuration: 1.8) { // UIView 애니메이션도 더 느리게
+            self.checkIconView.alpha = 1.0
+            self.checkIconView.transform = CGAffineTransform(scaleX: 1.4, y: 1.4)
+        } completion: { _ in
+            UIView.animate(withDuration: 0.5) { // 복구 애니메이션은 조금 빠르게
+                self.checkIconView.transform = .identity
+            }
+        }
+    }
+
+    private func animateXIcon() {
+        // X 아이콘을 CoreAnimation으로 그리기
+        let xPath = UIBezierPath()
+        xPath.move(to: CGPoint(x: 10, y: 10)) // 대각선 시작점
+        xPath.addLine(to: CGPoint(x: 40, y: 40)) // 대각선 끝점
+        xPath.move(to: CGPoint(x: 40, y: 10)) // 반대 대각선 시작점
+        xPath.addLine(to: CGPoint(x: 10, y: 40)) // 반대 대각선 끝점
+
+        let xLayer = CAShapeLayer()
+        xLayer.path = xPath.cgPath
+        xLayer.strokeColor = UIColor.red.cgColor // 빨간색 설정
+        xLayer.fillColor = UIColor.clear.cgColor
+        xLayer.lineWidth = 4
+        xLayer.lineCap = .round
+
+        // 기존 레이어 제거 후 새 레이어 추가
+        XIconView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        XIconView.layer.addSublayer(xLayer)
+
+        // 애니메이션 설정
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = 0
+        animation.toValue = 1
+        animation.duration = 1.2 // 애니메이션 지속 시간
+        xLayer.add(animation, forKey: "xAnimation")
+
+        // X 아이콘 전체 크기 애니메이션
+        UIView.animate(withDuration: 1.8) {
+            self.XIconView.alpha = 1.0
+            self.XIconView.transform = CGAffineTransform(scaleX: 1.4, y: 1.4)
+        } completion: { _ in
+            UIView.animate(withDuration: 0.5) {
+                self.XIconView.transform = .identity
+            }
+        }
+    }
+
+    // MARK: - Actions
+    @objc private func handleRetry() {
+        // 재검사 로직: CaptureLicenseView로 이동
+        let captureLicenseVC = CaptureLicenseViewController()
+        navigationController?.pushViewController(captureLicenseVC, animated: true)
     }
 }

@@ -130,6 +130,7 @@ class SelfieCaptureViewController: UIViewController {
                     // 성공 시 CustomAlertViewController를 표시
                     let alertVC = CustomAlertViewController(image: image) {
                         self?.hideLoading() // 로딩 숨김
+                        self?.removeBlurEffect()
                         self?.viewModel.startCameraSession()
                     }
                     self?.present(alertVC, animated: true)
