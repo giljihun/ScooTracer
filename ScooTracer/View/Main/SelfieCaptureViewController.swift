@@ -137,6 +137,7 @@ class SelfieCaptureViewController: UIViewController {
                 case .failure(let error):
                     // 실패 시 토스트 메시지 표시
                     self?.removeBlurEffect()
+                    self?.hideLoading()
                     self?.showToast(message: "\(error.localizedDescription)", duration: 2.0)
                     self?.viewModel.startCameraSession() // 세션 재시작
                 }
