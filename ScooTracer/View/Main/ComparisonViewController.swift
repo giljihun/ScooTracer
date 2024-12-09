@@ -120,6 +120,7 @@ class ComparisonViewController: UIViewController {
                 self.activityIndicator.stopAnimating()
                 if let similarity = similarity {
                     print("유사도 결과: \(similarity)")
+                    self.statusLabel.text = "유사도 결과: \(similarity)"
                 } else {
                     print("이미지 비교 실패")
                 }

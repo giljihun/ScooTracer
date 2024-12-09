@@ -54,6 +54,25 @@ extension UIImage {
 
         return buffer
     }
+
+    func flippedHorizontally() -> UIImage {
+        guard let cgImage = self.cgImage else {
+            return self
+        }
+
+        return UIImage(cgImage: cgImage, scale: self.scale, orientation: .upMirrored)
+    }
+
+    /// Orientation을 교정하여 이미지 정렬
+    func correctedOrientation() -> UIImage? {
+        guard self.imageOrientation != .up else { return self }
+
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+        self.draw(in: CGRect(origin: .zero, size: self.size))
+        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return normalizedImage
+    }
 }
 
 
