@@ -90,7 +90,7 @@ private func saveToKeychain(_ faceImage: UIImage) {
     SecItemDelete(query as CFDictionary) // 기존 항목 삭제
     let status = SecItemAdd(query as CFDictionary, nil)
 
-    print(status == errSecSuccess ? "본인 얼굴 이미지 KeyChain에 저장 성공" : "KeyChain 저장 실패: \(status)")
+    print(status == errSecSuccess ? "본인 얼굴 이미지 KeyChain에 저장 성공" : "KeyChain 저장 실패: \(status), \(kSecAttrAccount)")
 }
 
 // MARK: - AVCapturePhotoCaptureDelegate
@@ -102,6 +102,7 @@ extension SelfieCaptureViewModel: AVCapturePhotoCaptureDelegate {
             return
         }
 
+        saveToKeychain(image)
         onPhotoCaptured?(image)
     }
 }
