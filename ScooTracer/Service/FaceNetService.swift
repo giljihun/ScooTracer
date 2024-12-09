@@ -20,17 +20,18 @@ class FaceNetService {
         }
     }
 
-    func generateEmbedding(from image: UIImage) -> [Float]? {
+    func generateEmbedding(from image: UIImage) -> MLMultiArray? {
+        // 이미지 -> PixelBuffer로 변환
         guard let pixelBuffer = image.toPixelBuffer() else {
             print("이미지를 PixelBuffer로 변환 실패")
             return nil
         }
 
         do {
+            // 모델의 예측 결과에서 임베딩 추출
             let inputArray = try pixelBuffer.toMLMultiArray()
             let output = try model.prediction(input_1: inputArray)
-
-            return output.Identity.toFloatArray()
+            return output.Identity
         } catch {
             print("임베딩 생성 실패: \(error.localizedDescription)")
             return nil
@@ -38,17 +39,22 @@ class FaceNetService {
     }
 
     func compare(image1: UIImage, image2: UIImage) -> Float? {
+        // 두 이미지로부터 임베딩 생성
         guard let embedding1 = generateEmbedding(from: image1),
               let embedding2 = generateEmbedding(from: image2) else {
             print("임베딩 생성 실패로 비교 불가")
             return nil
         }
+
         print("License Embedding: \(embedding1)")
         print("Selfie Embedding: \(embedding2)")
+
+        // 코사인 유사도 계산
         return cosineSimilarity(vector1: embedding1, vector2: embedding2)
     }
 
-    private func cosineSimilarity(vector1: [Float], vector2: [Float]) -> Float {
+    private func cosineSimilarity(vector1: MLMultiArray, vector2: MLMultiArray) -> Float {
+        // 벡터 크기 확인
         guard vector1.count > 0, vector2.count > 0 else {
             print("벡터가 비어 있습니다")
             return 0.0
@@ -63,10 +69,17 @@ class FaceNetService {
         var magnitude1: Float = 0.0
         var magnitude2: Float = 0.0
 
+        // 벡터 내적 및 크기 계산
         for i in 0..<vector1.count {
-            dotProduct += vector1[i] * vector2[i]
-            magnitude1 += vector1[i] * vector1[i]
-            magnitude2 += vector2[i] * vector2[i]
+            guard let val1 = vector1[i] as? Float,
+                  let val2 = vector2[i] as? Float else {
+                print("MLMultiArray 값을 Float으로 변환 실패")
+                return 0.0
+            }
+
+            dotProduct += val1 * val2
+            magnitude1 += val1 * val1
+            magnitude2 += val2 * val2
         }
 
         magnitude1 = sqrt(magnitude1)
@@ -77,8 +90,6 @@ class FaceNetService {
             return 0.0
         }
 
-        let normalizedDotProduct = dotProduct / (magnitude1 * magnitude2)
-        return normalizedDotProduct
+        return dotProduct / (magnitude1 * magnitude2) // 코사인 유사도 반환
     }
-
 }
