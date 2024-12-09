@@ -120,21 +120,22 @@ class SelfieCaptureViewController: UIViewController {
 
     @objc private func captureButtonTapped() {
         animateCaptureButton()
-        showLoading() // 로딩 시작
+        addBlurEffect()
+        showLoading()
 
         viewModel.capturePhoto { [weak self] result in
             DispatchQueue.main.async {
-                self?.hideLoading() // 로딩 숨김
                 switch result {
                 case .success(let image):
                     // 성공 시 CustomAlertViewController를 표시
                     let alertVC = CustomAlertViewController(image: image) {
-                        // 재촬영 로직
+                        self?.hideLoading() // 로딩 숨김
                         self?.viewModel.startCameraSession()
                     }
                     self?.present(alertVC, animated: true)
                 case .failure(let error):
                     // 실패 시 토스트 메시지 표시
+                    self?.removeBlurEffect()
                     self?.showToast(message: "\(error.localizedDescription)", duration: 2.0)
                     self?.viewModel.startCameraSession() // 세션 재시작
                 }
