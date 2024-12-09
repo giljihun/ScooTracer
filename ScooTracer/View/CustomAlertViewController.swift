@@ -149,8 +149,8 @@ class CustomAlertViewController: UIViewController {
                 let selfieVC = SelfieCaptureViewController()
                 navigationController.pushViewController(selfieVC, animated: true)
             } else if navigationController.topViewController is SelfieCaptureViewController {
-                // TODO: 다른 화면으로 이동 (추후 구현)
-                print("TODO: 다음 화면으로 이동 로직 추가")
+                let comparisonVC = ComparisonViewController()
+                    navigationController.pushViewController(comparisonVC, animated: true)
             } else {
                 print("예상치 못한 topViewController입니다.")
             }
