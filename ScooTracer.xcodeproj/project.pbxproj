@@ -16,6 +16,7 @@
 		F2872B432D06D7C900ABA150 /* FaceNetExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2872B422D06D7C900ABA150 /* FaceNetExtensions.swift */; };
 		F2872B452D06DE2100ABA150 /* ComparisonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2872B442D06DE2100ABA150 /* ComparisonViewModel.swift */; };
 		F2872B562D07332000ABA150 /* facenet512.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = F2872B552D07332000ABA150 /* facenet512.mlpackage */; };
+		F2872B582D0846EF00ABA150 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2872B572D0846EF00ABA150 /* MainViewController.swift */; };
 		F2C140802CDB722900760C9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C1407F2CDB722900760C9A /* AppDelegate.swift */; };
 		F2C140822CDB722900760C9A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C140812CDB722900760C9A /* SceneDelegate.swift */; };
 		F2C140842CDB722900760C9A /* StartingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C140832CDB722900760C9A /* StartingViewController.swift */; };
@@ -35,6 +36,7 @@
 		F2872B422D06D7C900ABA150 /* FaceNetExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceNetExtensions.swift; sourceTree = "<group>"; };
 		F2872B442D06DE2100ABA150 /* ComparisonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonViewModel.swift; sourceTree = "<group>"; };
 		F2872B552D07332000ABA150 /* facenet512.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = facenet512.mlpackage; sourceTree = "<group>"; };
+		F2872B572D0846EF00ABA150 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		F2C1407C2CDB722900760C9A /* ScooTracer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScooTracer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C1407F2CDB722900760C9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F2C140812CDB722900760C9A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				F2C1409E2CEB20A600760C9A /* CaptureLicenseViewController.swift */,
 				F2872B362D04870800ABA150 /* SelfieCaptureViewController.swift */,
 				F2872B3A2D06C22100ABA150 /* ComparisonViewController.swift */,
+				F2872B572D0846EF00ABA150 /* MainViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 				F2C140A12CEB2E3E00760C9A /* CaptureLicenseViewModel.swift in Sources */,
 				F2C140802CDB722900760C9A /* AppDelegate.swift in Sources */,
 				F2C140822CDB722900760C9A /* SceneDelegate.swift in Sources */,
+				F2872B582D0846EF00ABA150 /* MainViewController.swift in Sources */,
 				F2872B3B2D06C22100ABA150 /* ComparisonViewController.swift in Sources */,
 				F2872B392D0493EB00ABA150 /* UIViewExtensions.swift in Sources */,
 				F2C1409D2CE46FDB00760C9A /* SplashViewController.swift in Sources */,

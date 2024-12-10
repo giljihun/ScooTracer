@@ -99,6 +99,8 @@ class ComparisonViewController: UIViewController {
         setupUI()
         setupActions()
         startComparison()
+
+        nextButton.addTarget(self, action: #selector(goToMainView), for: .touchUpInside)
     }
 
     // MARK: - UI Setup
@@ -190,7 +192,7 @@ class ComparisonViewController: UIViewController {
 
             DispatchQueue.main.async {
                 // TODO: - 임계점 임시 설정 ..
-                if let similarity = similarity, similarity > 0.65 {
+                if let similarity = similarity, similarity > 0.7 {
                     self.showSuccess()
                 } else {
                     self.showFailure()
@@ -296,5 +298,11 @@ class ComparisonViewController: UIViewController {
         // 재검사 로직: CaptureLicenseView로 이동
         let captureLicenseVC = CaptureLicenseViewController()
         navigationController?.pushViewController(captureLicenseVC, animated: true)
+    }
+
+    @objc private func goToMainView() {
+        let mainVC = MainViewController()
+        mainVC.modalPresentationStyle = .fullScreen
+        present(mainVC, animated: true, completion: nil)
     }
 }
