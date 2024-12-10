@@ -5,29 +5,31 @@
 //  Created by mobicom on 12/10/24.
 //
 
-//
-//  MainViewController.swift
-//  ScooTracer
-//
-//  Created by mobicom on 12/10/24.
-//
-
 import UIKit
+import MapKit
+import CoreLocation
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, CLLocationManagerDelegate {
 
     private let glowingCircle = CAShapeLayer()
     private let centerButton = UIButton(type: .custom)
     private let titleLabel = UILabel()
-    private let mainLabel = UILabel() // 기존 startLabel -> mainLabel
-    // private let logoImageView = UIImageView()
+    private let mainLabel = UILabel()
+    private let mapView = MKMapView()
+    private let locationManager = CLLocationManager()
+    private var markersAdded = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white // 배경을 흰색으로 설정
+        setupMapView()
+        view.backgroundColor = .white
         setupTitleLabel()
         setupMainLabel()
-        // setupLogoImageView()
+
+        // 위치 관리자 설정
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -35,6 +37,66 @@ class MainViewController: UIViewController {
         setupGlowingCircle()
         setupCenterButton()
         startGlowingAnimation()
+    }
+
+    // MARK: - Setup MapView
+    private func setupMapView() {
+        mapView.frame = view.bounds
+        mapView.mapType = .standard
+        mapView.showsUserLocation = true
+        mapView.alpha = 0.6
+        mapView.delegate = self
+        view.addSubview(mapView)
+    }
+
+    // MARK: - CLLocationManagerDelegate
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        centerMapOnLocation(location)
+
+        if !markersAdded {
+            addMarkers(to: mapView, around: location.coordinate)
+            markersAdded = true
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("위치 업데이트 실패: \(error.localizedDescription)")
+    }
+
+    private func centerMapOnLocation(_ location: CLLocation) {
+        let coordinateRegion = MKCoordinateRegion(
+            center: location.coordinate,
+            span: MKCoordinateSpan(latitudeDelta: 0.007, longitudeDelta: 0.007)
+        )
+        mapView.setRegion(coordinateRegion, animated: true)
+    }
+
+    // MARK: - 마커찍기 (랜덤)
+    private func addMarkers(to mapView: MKMapView, around center: CLLocationCoordinate2D) {
+        let radius: Double = 500
+        let markerCount = 7
+
+        let randomCoordinates = generateRandomCoordinates(center: center, count: markerCount, radius: radius)
+
+        for coordinate in randomCoordinates {
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            annotation.title = "🛴 배터리 잔량 - 🪫"
+            mapView.addAnnotation(annotation)
+        }
+    }
+
+    private func generateRandomCoordinates(center: CLLocationCoordinate2D, count: Int, radius: Double) -> [CLLocationCoordinate2D] {
+        var randomCoordinates: [CLLocationCoordinate2D] = []
+
+        for _ in 0..<count {
+            let randomLatitude = center.latitude + (Double.random(in: -radius...radius) / 111_000)
+            let randomLongitude = center.longitude + (Double.random(in: -radius...radius) / (111_000 * cos(center.latitude * .pi / 180)))
+            randomCoordinates.append(CLLocationCoordinate2D(latitude: randomLatitude, longitude: randomLongitude))
+        }
+
+        return randomCoordinates
     }
 
     // MARK: - Setup Title Label
@@ -63,21 +125,6 @@ class MainViewController: UIViewController {
         ])
     }
 
-//    // MARK: - Setup Logo ImageView
-//    private func setupLogoImageView() {
-//        logoImageView.image = UIImage(named: "Logo3")
-//        logoImageView.contentMode = .scaleAspectFit
-//        logoImageView.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(logoImageView)
-//
-//        NSLayoutConstraint.activate([
-//            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            logoImageView.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -50), // 중앙보다 살짝 위로
-//            logoImageView.widthAnchor.constraint(equalToConstant: 150), // 이미지 크기
-//            logoImageView.heightAnchor.constraint(equalToConstant: 150)
-//        ])
-//    }
-
     // MARK: - Setup Glowing Circle
     private func setupGlowingCircle() {
         glowingCircle.lineWidth = 7
@@ -90,20 +137,19 @@ class MainViewController: UIViewController {
 
     // MARK: - Setup Center Button
     private func setupCenterButton() {
-        centerButton.frame = CGRect(x: 0, y: 0, width: 160, height: 160) // 내부 원 크기
-        centerButton.center = CGPoint(x: view.center.x, y: view.center.y + 100) // 중앙보다 아래로 이동
+        centerButton.frame = CGRect(x: 0, y: 0, width: 160, height: 160)
+        centerButton.center = CGPoint(x: view.center.x, y: view.center.y + 200)
         centerButton.layer.cornerRadius = 80
         centerButton.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
         centerButton.setTitle("GO!", for: .normal)
         centerButton.setTitleColor(.white, for: .normal)
         centerButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
-        centerButton.transform = CGAffineTransform(scaleX: 0.0, y: 0.0) // 시작 크기 0
+        centerButton.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
 
-        // 쉐도우 설정
-        centerButton.layer.shadowColor = UIColor.black.cgColor // 그림자 색
-        centerButton.layer.shadowOffset = CGSize(width: 0, height: 4) // 그림자 방향과 거리
-        centerButton.layer.shadowOpacity = 0.3 // 그림자 투명도
-        centerButton.layer.shadowRadius = 8 // 그림자 흐림 정도
+        centerButton.layer.shadowColor = UIColor.black.cgColor
+        centerButton.layer.shadowOffset = CGSize(width: 0, height: 4)
+        centerButton.layer.shadowOpacity = 0.3
+        centerButton.layer.shadowRadius = 8
 
         centerButton.addTarget(self, action: #selector(buttonPressed), for: .touchDown)
         centerButton.addTarget(self, action: #selector(buttonReleased), for: [.touchUpInside, .touchUpOutside])
@@ -147,24 +193,41 @@ class MainViewController: UIViewController {
             self.centerButton.transform = .identity
         })
     }
-    // MARK: - Button Pressed (눌림 효과)
+
     @objc private func buttonPressed() {
         UIView.animate(withDuration: 0.1) {
             self.centerButton.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         }
     }
 
-    // MARK: - Button Released
     @objc private func buttonReleased() {
         UIView.animate(withDuration: 0.1) {
             self.centerButton.transform = .identity
         }
     }
 
-    // MARK: - Riding 페이지 이동 로직
     @objc private func goToRidingView() {
         let ridingViewController = RidingViewController()
         ridingViewController.modalPresentationStyle = .fullScreen
         present(ridingViewController, animated: true, completion: nil)
+    }
+}
+
+extension MainViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard !(annotation is MKUserLocation) else { return nil }
+
+        let identifier = "EmojiMarker"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+
+        if annotationView == nil {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView?.canShowCallout = true
+            annotationView?.image = UIImage.emojiImage(from: "🛴", size: CGSize(width: 20, height: 20))
+        } else {
+            annotationView?.annotation = annotation
+        }
+
+        return annotationView
     }
 }

@@ -19,6 +19,7 @@
 		F2872B582D0846EF00ABA150 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2872B572D0846EF00ABA150 /* MainViewController.swift */; };
 		F2872B5A2D087BF100ABA150 /* RidingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2872B592D087BF100ABA150 /* RidingViewController.swift */; };
 		F2872B5C2D087CA600ABA150 /* RidingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2872B5B2D087CA600ABA150 /* RidingViewModel.swift */; };
+		F2872B5E2D08E49400ABA150 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2872B5D2D08E49400ABA150 /* UIImageExtensions.swift */; };
 		F2C140802CDB722900760C9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C1407F2CDB722900760C9A /* AppDelegate.swift */; };
 		F2C140822CDB722900760C9A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C140812CDB722900760C9A /* SceneDelegate.swift */; };
 		F2C140842CDB722900760C9A /* StartingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C140832CDB722900760C9A /* StartingViewController.swift */; };
@@ -41,6 +42,7 @@
 		F2872B572D0846EF00ABA150 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		F2872B592D087BF100ABA150 /* RidingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RidingViewController.swift; sourceTree = "<group>"; };
 		F2872B5B2D087CA600ABA150 /* RidingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RidingViewModel.swift; sourceTree = "<group>"; };
+		F2872B5D2D08E49400ABA150 /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		F2C1407C2CDB722900760C9A /* ScooTracer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScooTracer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C1407F2CDB722900760C9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F2C140812CDB722900760C9A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 			children = (
 				F2872B382D0493EB00ABA150 /* UIViewExtensions.swift */,
 				F2872B422D06D7C900ABA150 /* FaceNetExtensions.swift */,
+				F2872B5D2D08E49400ABA150 /* UIImageExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 			files = (
 				F2C140842CDB722900760C9A /* StartingViewController.swift in Sources */,
 				F2872B432D06D7C900ABA150 /* FaceNetExtensions.swift in Sources */,
+				F2872B5E2D08E49400ABA150 /* UIImageExtensions.swift in Sources */,
 				F2872B372D04870800ABA150 /* SelfieCaptureViewController.swift in Sources */,
 				F2872B412D06D6EA00ABA150 /* FaceNetService.swift in Sources */,
 				F2C140A12CEB2E3E00760C9A /* CaptureLicenseViewModel.swift in Sources */,
