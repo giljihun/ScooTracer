@@ -73,7 +73,7 @@ class MainViewController: UIViewController {
         centerButton.frame = CGRect(x: 0, y: 0, width: 160, height: 160) // 내부 원 크기
         centerButton.center = view.center
         centerButton.layer.cornerRadius = 80
-        centerButton.backgroundColor = .systemBlue
+        centerButton.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
         centerButton.setTitle("GO!", for: .normal)
         centerButton.setTitleColor(.white, for: .normal)
         centerButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
@@ -87,6 +87,7 @@ class MainViewController: UIViewController {
 
         centerButton.addTarget(self, action: #selector(buttonPressed), for: .touchDown)
         centerButton.addTarget(self, action: #selector(buttonReleased), for: [.touchUpInside, .touchUpOutside])
+        centerButton.addTarget(self, action: #selector(goToRidingView), for: .touchUpInside)
 
         view.addSubview(centerButton)
     }
@@ -117,7 +118,7 @@ class MainViewController: UIViewController {
         let circlePath = UIBezierPath(arcCenter: .zero, radius: 80, startAngle: 0, endAngle: .pi * 2, clockwise: true)
         rippleLayer.path = circlePath.cgPath
         rippleLayer.lineWidth = 2
-        rippleLayer.strokeColor = UIColor.lightGray.withAlphaComponent(0.3).cgColor // 더 연한 색 적용
+        rippleLayer.strokeColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.3).cgColor // 더 연한 색 적용
         rippleLayer.fillColor = UIColor.clear.cgColor
         rippleLayer.position = view.center // 화면 중앙에 위치
 
@@ -142,5 +143,12 @@ class MainViewController: UIViewController {
         UIView.animate(withDuration: 0.1) {
             self.centerButton.transform = .identity
         }
+    }
+
+    // MARK: - Riding 페이지 이동 로직
+    @objc private func goToRidingView() {
+        let ridingViewController = RidingViewController()
+        ridingViewController.modalPresentationStyle = .fullScreen
+        present(ridingViewController, animated: true, completion: nil)
     }
 }
