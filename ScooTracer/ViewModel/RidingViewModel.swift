@@ -53,6 +53,7 @@ class RidingViewModel: NSObject, AVCapturePhotoCaptureDelegate {
     func compareFace(with image: UIImage, completion: @escaping (Float?, Int) -> Void) {
         guard let croppedFace = cropFaceFromImage(image) else {
             print("🚨 얼굴 크롭 실패: cropFaceFromImage 결과가 nil")
+            errorCount += 1
             completion(nil, errorCount)
             return
         }

@@ -20,13 +20,18 @@ class MainViewController: UIViewController {
     private let centerButton = UIButton(type: .custom)
     private let titleLabel = UILabel()
     private let mainLabel = UILabel() // 기존 startLabel -> mainLabel
+    // private let logoImageView = UIImageView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white // 배경을 흰색으로 설정
-
         setupTitleLabel()
         setupMainLabel()
+        // setupLogoImageView()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         setupGlowingCircle()
         setupCenterButton()
         startGlowingAnimation()
@@ -58,6 +63,21 @@ class MainViewController: UIViewController {
         ])
     }
 
+//    // MARK: - Setup Logo ImageView
+//    private func setupLogoImageView() {
+//        logoImageView.image = UIImage(named: "Logo3")
+//        logoImageView.contentMode = .scaleAspectFit
+//        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(logoImageView)
+//
+//        NSLayoutConstraint.activate([
+//            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            logoImageView.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -50), // 중앙보다 살짝 위로
+//            logoImageView.widthAnchor.constraint(equalToConstant: 150), // 이미지 크기
+//            logoImageView.heightAnchor.constraint(equalToConstant: 150)
+//        ])
+//    }
+
     // MARK: - Setup Glowing Circle
     private func setupGlowingCircle() {
         glowingCircle.lineWidth = 7
@@ -71,7 +91,7 @@ class MainViewController: UIViewController {
     // MARK: - Setup Center Button
     private func setupCenterButton() {
         centerButton.frame = CGRect(x: 0, y: 0, width: 160, height: 160) // 내부 원 크기
-        centerButton.center = view.center
+        centerButton.center = CGPoint(x: view.center.x, y: view.center.y + 100) // 중앙보다 아래로 이동
         centerButton.layer.cornerRadius = 80
         centerButton.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
         centerButton.setTitle("GO!", for: .normal)
@@ -94,15 +114,14 @@ class MainViewController: UIViewController {
 
     // MARK: - Glowing Circle Animation
     private func startGlowingAnimation() {
-        // 반복적으로 퍼지는 물결 효과
         let rippleAnimation = CABasicAnimation(keyPath: "transform.scale")
         rippleAnimation.fromValue = 1.0
-        rippleAnimation.toValue = 2.5 // 일정한 속도로 확대
+        rippleAnimation.toValue = 2.5
         rippleAnimation.duration = 1.0
         rippleAnimation.repeatCount = .infinity
 
         let fadeAnimation = CABasicAnimation(keyPath: "opacity")
-        fadeAnimation.fromValue = 0.5 // 더 연한 색으로 시작
+        fadeAnimation.fromValue = 0.5
         fadeAnimation.toValue = 0.0
         fadeAnimation.duration = 2.0
         fadeAnimation.repeatCount = .infinity
@@ -111,26 +130,23 @@ class MainViewController: UIViewController {
         animationGroup.animations = [rippleAnimation, fadeAnimation]
         animationGroup.duration = 2.0
         animationGroup.repeatCount = .infinity
-        animationGroup.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut) // 일정한 속도 유지
+        animationGroup.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
 
-        // 물결 효과 레이어 설정
         let rippleLayer = CAShapeLayer()
         let circlePath = UIBezierPath(arcCenter: .zero, radius: 80, startAngle: 0, endAngle: .pi * 2, clockwise: true)
         rippleLayer.path = circlePath.cgPath
         rippleLayer.lineWidth = 2
-        rippleLayer.strokeColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.3).cgColor // 더 연한 색 적용
+        rippleLayer.strokeColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.3).cgColor
         rippleLayer.fillColor = UIColor.clear.cgColor
-        rippleLayer.position = view.center // 화면 중앙에 위치
+        rippleLayer.position = centerButton.center
 
-        view.layer.insertSublayer(rippleLayer, below: centerButton.layer) // 버튼 아래 레이어에 추가
+        view.layer.insertSublayer(rippleLayer, below: centerButton.layer)
         rippleLayer.add(animationGroup, forKey: "rippleEffect")
 
-        // Center button pop-in animation
         UIView.animate(withDuration: 1.0, delay: 0.5, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.8, options: .curveEaseInOut, animations: {
-            self.centerButton.transform = .identity // 크기 복구
+            self.centerButton.transform = .identity
         })
     }
-
     // MARK: - Button Pressed (눌림 효과)
     @objc private func buttonPressed() {
         UIView.animate(withDuration: 0.1) {
