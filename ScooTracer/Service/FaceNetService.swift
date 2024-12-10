@@ -46,8 +46,8 @@ class FaceNetService {
             return nil
         }
 
-        print("License Embedding: \(embedding1)")
-        print("Selfie Embedding: \(embedding2)")
+        // print("1. Embedding: \(embedding1)")
+        // print("2. Embedding: \(embedding2)")
 
         // 코사인 유사도 계산
         return cosineSimilarity(vector1: embedding1, vector2: embedding2)

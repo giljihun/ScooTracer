@@ -192,7 +192,7 @@ class ComparisonViewController: UIViewController {
 
             DispatchQueue.main.async {
                 // TODO: - 임계점 임시 설정 ..
-                if let similarity = similarity, similarity > 0.7 {
+                if let similarity = similarity, similarity > 0.6 {
                     self.showSuccess()
                 } else {
                     self.showFailure()
