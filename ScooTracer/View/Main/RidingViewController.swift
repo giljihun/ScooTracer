@@ -87,9 +87,11 @@ class RidingViewController: UIViewController {
                     // 얼굴 비교 수행
                     self?.viewModel.compareFace(with: image) { similarity, errorCount in
                         DispatchQueue.main.async {
-                            if let similarity = similarity {
-                                print("유사도: \(similarity)")
-                            } else {
+
+                            if let similarity = similarity, similarity < 0.6 {
+                                print("유사도가 낮음: \(similarity)")
+                                self?.addDetectionWrongLogo()
+                            } else if similarity == nil {
                                 print("얼굴 비교 실패")
                                 self?.addDetectionWrongLogo()
                             }
