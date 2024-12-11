@@ -15,6 +15,8 @@ class ComparisonViewController: UIViewController {
     private let licenseImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 10
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .white
 //        imageView.layer.borderColor = UIColor.lightGray.cgColor
@@ -30,6 +32,8 @@ class ComparisonViewController: UIViewController {
     private let selfieImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 10
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .white
 //        imageView.layer.borderColor = UIColor.lightGray.cgColor
@@ -118,13 +122,13 @@ class ComparisonViewController: UIViewController {
             licenseImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             licenseImageView.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -10),
             licenseImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 170), // 위치를 더 아래로 이동
-            licenseImageView.heightAnchor.constraint(equalToConstant: 150),
+            licenseImageView.heightAnchor.constraint(equalToConstant: 158),
 
             // Selfie ImageView Constraints
             selfieImageView.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 10),
             selfieImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             selfieImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 170), // 위치를 더 아래로 이동
-            selfieImageView.heightAnchor.constraint(equalToConstant: 150),
+            selfieImageView.heightAnchor.constraint(equalToConstant: 158),
 
             // Status Label Constraints
             statusLabel.topAnchor.constraint(equalTo: licenseImageView.bottomAnchor, constant: 50), // 아래로 이동
