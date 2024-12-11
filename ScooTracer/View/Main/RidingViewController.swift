@@ -24,6 +24,8 @@ class RidingViewController: UIViewController {
     private let logoImageView = UIImageView()
     private var timer: Timer? // 얼굴 비교를 위한 타이머
     private let capturedImageView = UIImageView() // 캡처된 이미지를 표시할 이미지뷰
+    private var detectionWrongLogos: [UIImageView] = [] // 로고를 저장할 배열
+    private let detectionWrongSpacing: CGFloat = 16 // 로고 간 간격
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -79,6 +81,7 @@ class RidingViewController: UIViewController {
                                 print("유사도: \(similarity)")
                             } else {
                                 print("얼굴 비교 실패")
+                                self?.addDetectionWrongLogo()
                             }
 
                             print("현재 에러 카운트: \(errorCount)")
@@ -266,6 +269,44 @@ class RidingViewController: UIViewController {
             self.blurView?.removeFromSuperview()
             self.blurView = nil
         })
+    }
+
+    // MARK: - 에러 로고 등장
+    private func addDetectionWrongLogo() {
+        guard detectionWrongLogos.count < 3 else { return } // 최대 3개만 추가
+
+        let logoImageView = UIImageView()
+        logoImageView.image = UIImage(named: "detectionWrong") // 로고 이미지 설정
+        logoImageView.contentMode = .scaleAspectFit
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        logoImageView.alpha = 0 // 초기 상태는 투명
+        view.addSubview(logoImageView)
+
+        detectionWrongLogos.append(logoImageView) // 배열에 추가
+
+        // 로고 위치 계산
+        let logoCount = detectionWrongLogos.count
+        let totalWidth = (CGFloat(logoCount) * 40) + (CGFloat(logoCount - 1) * detectionWrongSpacing)
+        let startingX = (view.bounds.width - totalWidth) / 2
+
+        for (index, logo) in detectionWrongLogos.enumerated() {
+            NSLayoutConstraint.activate([
+                logo.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16), // 하단 고정
+                logo.widthAnchor.constraint(equalToConstant: 40), // 고정 너비
+                logo.heightAnchor.constraint(equalToConstant: 40), // 고정 높이
+                logo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: startingX + CGFloat(index) * (40 + detectionWrongSpacing)) // 위치 계산
+            ])
+        }
+
+        // 등장 애니메이션
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+            logoImageView.alpha = 1
+            logoImageView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        }) { _ in
+            UIView.animate(withDuration: 0.2) {
+                logoImageView.transform = .identity
+            }
+        }
     }
 
     // MARK: - Deinitialization
