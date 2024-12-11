@@ -25,7 +25,16 @@ class RidingViewController: UIViewController {
     private var timer: Timer? // 얼굴 비교를 위한 타이머
     private let capturedImageView = UIImageView() // 캡처된 이미지를 표시할 이미지뷰
     private var detectionWrongLogos: [UIImageView] = [] // 로고를 저장할 배열
-    private let detectionWrongSpacing: CGFloat = 16 // 로고 간 간격
+
+    private let statusLabel: UILabel = {
+        let label = UILabel()
+        label.text = "모든 것이 정상입니다. 😊"
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.textColor = .lightGray
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -35,6 +44,7 @@ class RidingViewController: UIViewController {
         setupViewModel()
         viewModel.checkCameraAuthorization()
         setupLogoImageView()
+        setupStatusLabel()
         setupCapturedImageView()
     }
 
@@ -284,17 +294,23 @@ class RidingViewController: UIViewController {
 
         detectionWrongLogos.append(logoImageView) // 배열에 추가
 
-        // 로고 위치 계산
+        removeStatusLabelIfNeeded()
+
+        // 로고 크기와 간격 설정
+        let logoSize: CGFloat = 80
+        let logoSpacing: CGFloat = 20
         let logoCount = detectionWrongLogos.count
-        let totalWidth = (CGFloat(logoCount) * 40) + (CGFloat(logoCount - 1) * detectionWrongSpacing)
+
+        // 전체 너비와 시작 X 좌표 계산
+        let totalWidth = (CGFloat(logoCount) * logoSize) + (CGFloat(logoCount - 1) * logoSpacing)
         let startingX = (view.bounds.width - totalWidth) / 2
 
         for (index, logo) in detectionWrongLogos.enumerated() {
             NSLayoutConstraint.activate([
-                logo.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16), // 하단 고정
-                logo.widthAnchor.constraint(equalToConstant: 40), // 고정 너비
-                logo.heightAnchor.constraint(equalToConstant: 40), // 고정 높이
-                logo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: startingX + CGFloat(index) * (40 + detectionWrongSpacing)) // 위치 계산
+                logo.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -66), // 하단 고정
+                logo.widthAnchor.constraint(equalToConstant: logoSize), // 고정 너비
+                logo.heightAnchor.constraint(equalToConstant: logoSize), // 고정 높이
+                logo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: startingX + CGFloat(index) * (logoSize + logoSpacing)) // 위치 계산
             ])
         }
 
@@ -308,6 +324,21 @@ class RidingViewController: UIViewController {
             }
         }
     }
+
+    // MARK: - 검출 상태 체크
+    private func setupStatusLabel() {
+        view.addSubview(statusLabel)
+        NSLayoutConstraint.activate([
+            statusLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            statusLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100)
+        ])
+    }
+
+    private func removeStatusLabelIfNeeded() {
+        guard !detectionWrongLogos.isEmpty else { return } // 로고가 없으면 아무 작업도 하지 않음
+        statusLabel.removeFromSuperview()
+    }
+
 
     // MARK: - Deinitialization
     deinit {
