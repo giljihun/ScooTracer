@@ -66,7 +66,7 @@ class RidingViewController: UIViewController {
                 switch result {
                 case .success(let image):
                     // 캡처된 이미지를 이미지뷰에 표시
-                    self?.capturedImageView.image = image
+                    self?.capturedImageView.image = image.flippedHorizontally()
                     print("사진 캡처 성공")
 
                     // 프리뷰 애니메이션
@@ -135,24 +135,26 @@ class RidingViewController: UIViewController {
             logoImageView.widthAnchor.constraint(equalToConstant: 80),
             logoImageView.heightAnchor.constraint(equalToConstant: 80)
         ])
-
-        addBlurEffect()
     }
 
     // MARK: - 캡처된 이미지뷰 설정
     private func setupCapturedImageView() {
         capturedImageView.contentMode = .scaleAspectFit
         capturedImageView.layer.borderWidth = 2
-        capturedImageView.layer.borderColor = UIColor.gray.cgColor
+        capturedImageView.layer.borderColor = UIColor.gray.withAlphaComponent(0.3).cgColor
+        capturedImageView.layer.cornerRadius = 16
+        capturedImageView.clipsToBounds = true
         capturedImageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(capturedImageView)
 
         NSLayoutConstraint.activate([
-            capturedImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            capturedImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -200),
-            capturedImageView.widthAnchor.constraint(equalToConstant: 120),
-            capturedImageView.heightAnchor.constraint(equalToConstant: 120)
+            capturedImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            capturedImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -320),
+            capturedImageView.widthAnchor.constraint(equalToConstant: 81),
+            capturedImageView.heightAnchor.constraint(equalToConstant: 100)
         ])
+
+        addBlurEffect()
     }
 
     // MARK: - 얼굴 탐지 타이머

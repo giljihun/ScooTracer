@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        window.rootViewController = navigationController
 //#else
         // 배포 빌드에서 기본 플로우 시작
-        let splashViewController = SplashViewController()
+        let splashViewController = MainViewController()
         window.rootViewController = splashViewController
 //#endif
 
