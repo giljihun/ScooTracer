@@ -9,73 +9,6 @@ import UIKit
 import CoreVideo
 import CoreML
 
-
-/// UIImage를 CoreML 모델 입력으로 사용할 수 있도록 CVPixelBuffer로 변환.
-/// CVPixelBuffer 입력을 요구하는 모델에 이미지를 전달하기 위해 필수적인 작업.
-extension UIImage {
-    func toPixelBuffer() -> CVPixelBuffer? {
-        let attrs = [
-            kCVPixelBufferCGImageCompatibilityKey: true,
-            kCVPixelBufferCGBitmapContextCompatibilityKey: true
-        ] as CFDictionary
-
-        var pixelBuffer: CVPixelBuffer?
-        let status = CVPixelBufferCreate(
-            kCFAllocatorDefault,
-            Int(self.size.width),
-            Int(self.size.height),
-            kCVPixelFormatType_32ARGB,
-            attrs,
-            &pixelBuffer
-        )
-
-        guard status == kCVReturnSuccess, let buffer = pixelBuffer else {
-            print("PixelBuffer 생성 실패")
-            return nil
-        }
-
-        CVPixelBufferLockBaseAddress(buffer, .readOnly)
-        guard let context = CGContext(
-            data: CVPixelBufferGetBaseAddress(buffer),
-            width: Int(self.size.width),
-            height: Int(self.size.height),
-            bitsPerComponent: 8,
-            bytesPerRow: CVPixelBufferGetBytesPerRow(buffer),
-            space: CGColorSpaceCreateDeviceRGB(),
-            bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue
-        ) else {
-            print("CGContext 생성 실패")
-            return nil
-        }
-
-        guard let cgImage = self.cgImage else { return nil }
-        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
-        CVPixelBufferUnlockBaseAddress(buffer, .readOnly)
-
-        return buffer
-    }
-
-    func flippedHorizontally() -> UIImage {
-        guard let cgImage = self.cgImage else {
-            return self
-        }
-
-        return UIImage(cgImage: cgImage, scale: self.scale, orientation: .upMirrored)
-    }
-
-    /// Orientation을 교정하여 이미지 정렬
-    func correctedOrientation() -> UIImage? {
-        guard self.imageOrientation != .up else { return self }
-
-        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
-        self.draw(in: CGRect(origin: .zero, size: self.size))
-        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return normalizedImage
-    }
-}
-
-
 /// CVPixelBuffer를 CoreML 모델 입력으로 사용할 수 있도록 MLMultiArray로 변환.
 /// RGB 채널 추출과 정규화를 처리하여 모델의 입력 형식과 호환되도록 함.
 extension CVPixelBuffer {
@@ -133,15 +66,5 @@ extension MLMultiArray {
             floatArray[i] = self[i].floatValue
         }
         return floatArray
-    }
-}
-
-extension UIImage {
-    /// 이미지를 지정된 크기로 리사이즈
-    func resized(to size: CGSize) -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(size, false, self.scale)
-        defer { UIGraphicsEndImageContext() }
-        self.draw(in: CGRect(origin: .zero, size: size))
-        return UIGraphicsGetImageFromCurrentImageContext()
     }
 }
