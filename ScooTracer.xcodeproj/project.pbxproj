@@ -67,13 +67,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F2872B322D0482AE00ABA150 /* Sub */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Sub;
-			sourceTree = "<group>";
-		};
 		F2872B332D0482BC00ABA150 /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,29 +106,19 @@
 			children = (
 				F2C1407F2CDB722900760C9A /* AppDelegate.swift */,
 				F2C140812CDB722900760C9A /* SceneDelegate.swift */,
-				F2C140952CDB884F00760C9A /* Model */,
 				F2C140962CDB885600760C9A /* View */,
 				F2C140972CDB885B00760C9A /* ViewModel */,
 				F2C140982CDB886000760C9A /* Service */,
 				F2C140992CDB886400760C9A /* Resources */,
 				F2C1409A2CDB886A00760C9A /* Extensions */,
-				F2C1409B2CDB886E00760C9A /* Utils */,
 			);
 			path = ScooTracer;
-			sourceTree = "<group>";
-		};
-		F2C140952CDB884F00760C9A /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		F2C140962CDB885600760C9A /* View */ = {
 			isa = PBXGroup;
 			children = (
 				F2872B332D0482BC00ABA150 /* Main */,
-				F2872B322D0482AE00ABA150 /* Sub */,
 				F2872B302D0469D800ABA150 /* CustomAlertViewController.swift */,
 			);
 			path = View;
@@ -176,13 +159,6 @@
 				F2872B5D2D08E49400ABA150 /* UIImageExtensions.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		F2C1409B2CDB886E00760C9A /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
